@@ -1,3 +1,33 @@
+I’m working as a Front-End Developer with around 10 years of experience in building scalable, high-performance modern web applications and hybrid mobile applications.
+ 
+My primary skills are React and Angular, with strong hands-on experience in JavaScript, HTML5, CSS3 and JavaScript libraries.
+ 
+Over the years, I’ve worked on developing enterprise-level UI applications, creating reusable components, and ensuring consistent user experiences across different platforms and business units.
+ 
+I’ve been closely involved in UI architecture, component design, and performance optimization, and I focus heavily on clean, maintainable code and best practices.
+ 
+I also collaborate actively with product owners, designers, and backend teams to translate business requirements into final deliverables.
+ 
+In my recent projects, we’ve build a reusable component libraries, which helped reduce duplication, improve consistency, and scale UI development across multiple applications.
+
+Project Overview (Interview Explanation)
+
+Across the enterprise, there are various ways and places for customers to make payments.
+ 
+So that multiple business units had different payment experiences built on various technologies like React, Angular, etc.
+ 
+This is causing duplicated development effort, inconsistent UI, and poor scalability issues.
+ 
+The Goal is consistency across business units. Build a reusable  set of components that will create a unified user experience for all locators.
+ 
+That why we build and maintained a reusable payment web component system using Stencil.js to standardize payment workflows and ensure consistency across enterprise applications.
+ 
+Developed modular components for add, edit, select, and delete payment methods, improving scalability, maintainability, and user experience across business units.
+ 
+Integrated and supported these web components across multiple technology stacks, including Angular and React applications, ensuring seamless adoption and long-term maintenance.
+ 
+
+
 What do you rate yourself in angular
 What has your experience been like as part of an Agile software development process, 
 Can you describe the development methodology that you're familiar with?
@@ -421,3 +451,4 @@ function isSorted(array) {
   }
 const number = [80, 81, 67, 58, 30];
 console.log(isSorted(number));
+
