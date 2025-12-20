@@ -257,6 +257,13 @@ var hasJava = persons.some(function(personObj){
     return personObj.tags.indexOf("java") > -1
 });
 console.log(hasJava);
+=====================================================================================================================
+How remove null and undefined values from an array.
+
+const values = [1, 2, "b", 0, {}, "", NaN, 3, undefined, null, 5];
+const truthyValues = values.filter(Boolean);
+console.log(truthyValues);
+// Output: [1, 2, "b", {}, 3, 5]
 ===============================================================================================================================
 
 Example 1 :- Filter even numbers
