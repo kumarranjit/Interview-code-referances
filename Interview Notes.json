@@ -133,6 +133,12 @@ Difference between setTimeout & setInterval?
 How to stop setInterval method?
 what is the different Const and Object.freeze()?
 Object.seal()?
+1. Find duplicate number in array?
+2. What is closure write realtime example?
+3. what is eventloop?
+4. What is Promise in Javascript?What is Promise.all()
+5. Difference between async-await and promise
+6. 
 
 1. Find duplicate number in array?
 2. What is difference between == and ===?
@@ -251,6 +257,9 @@ Question No: 44:- How to create Custom pipes in Angular?
 
 
 
+1. what is jwd token explaine how use in real time?
+2. what is http intercepters in angular?
+3. How to using router for different user role for example admin having all access, some of the user need to restrict some module?
 ====================================================================
 1. out of given 3 arrays with n number of elements, find out the common element(s) for all 3 arrays.
  
@@ -393,6 +402,47 @@ https://netbasal.com/angular-2-improve-performance-with-trackby-cc147b5104e5
 https://angular.io/guide/router#canload-guard-guarding-unauthorized-loading-of-feature-modules
 5.	WebWorkers for large operations and PWA – Progressive web apps 
 
+Questions
+--------------
+1. let and ver diff
+2. angular 1 and 2 diff
+3. digiest cycle ?
+4. Directives 
+5. structrual directives 
+6. const keyword?
+7. http method ?
+8. why we use component in angular 2?
+9. can we use typescipt in angular 1?
+10. closure ?
+11.what is filter?
+12.box model in css?
+13.project architecture?
+14. advantage of typescipt.
+
+15.static typing and dynamic typing in typescript?
+Ans:
+-------
+In the context of language semantics and type systems, static usually means “at compile time” or “without running a program,” 
+while dynamic means “at runtime.”
+
+16. call by reference in javascript  oops?
+17. what is subscribe?
+18. what is BOX model css?
+19. what is promises
+20. what is oberservable?
+21. what is filter and map
+22. pass by value and pass by reference in oops javascript?
+23. events emit in angular 2
+24. extends and implement
+25. what is polymorphism and encapsulation
+26. what is abstract class?
+27. Namespace?
+28. Why OOPS JavaScript?
+29. Mixins?
+30. javascript promises 
+31. try, catch in javascript
+32. Diff b/w sync and async 
+33. why private instead of public in angular
 
 1. Find Max number in given array 
 ===================================
@@ -452,3 +502,56 @@ function isSorted(array) {
 const number = [80, 81, 67, 58, 30];
 console.log(isSorted(number));
 
+
+Angular Questions
+----------------------------
+1. @injectable
+2. routing syntax 
+3. NgModule Syntax
+4. CLI ?
+5. What is Dependency Injection? Explain with example.
+6. Explain tsconfig.json file.
+7. Custom Directive
+8. What is Angular 2?
+9. List some advantages of Angular 2 over Angular1?
+10. What are the new features of Angular 2?
+11. How do you define the transition between two states in Angular?
+12. How to declare a component in Angular 2?
+13. What is the difference between observable and promises?
+14. List the differences between Angular 2 components vs. directives?
+15. What is ECMAScript?
+16. What is Traceur Compiler?
+17. List the modern browsers supported by Angular 2?
+18. When to use Ngoninit and constructor in Angular 2?
+19.  How to cache an observable data?
+20. List out the differences between ActivatedRoute and RouterState, with reference to Angular 2.
+21. What would you have in a shared module in Angular 2?
+22. What do you mean by a structural directive in Angular 2?
+23. What do you understand by a template variable? How is it used?
+24. Explain the concept of lazy loading in Angular 2.
+25. What is the difference between constructor and ngOnlnit in Angular js?
+26. What is the meaning of component life cycle in Angular 2?
+27. What is the use of ngForTrackBy directive?
+29. HostBinding & HostListener
+30. observer in rxjs
+31. What is singleton?
+32. @Directive v/s @Component in Angular
+33. super()
+33. shadom DOM in angular
+34. scurity implementation in angular 
+35. transition b/w two states
+36. Observable ?
+37. diff b/w Module and Component?
+38. diff b/w service, factory and provider in angular js 1?
+39. forRoot ?
+40. Encapsulation modes ? 
+41. brief about observable?
+42. Custom Pipes?
+43. forRoot() and forChild()
+44. Route Guard vs Auth Guard
+45. How to setup lazy loading
+46. Diff b/w abstract class & interface
+47. can we create more than one module in angular ?
+48. RouterLink vs RouterOutlet
+49. native element
+50. forkJoin

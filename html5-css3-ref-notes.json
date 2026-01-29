@@ -1,6 +1,6 @@
 Semantic elements = elements with a meaning.
 -----------------
-Semantics is the study of the meanings of words and phrases in a language.
+A semantic element clearly describes its meaning to both the browser and the developer.
 
 What are Semantic Elements?
 ---------------------------
@@ -48,6 +48,11 @@ Differences Between HTML 4.01 and HTML5
 HTML 4.01 Strict
 This DTD contains all HTML elements and attributes, but does NOT INCLUDE presentational or deprecated elements (like font). Framesets are not allowed.
 
+Web API
+-----------------
+
+
+
 The position Property
 ----------------------
 The position property specifies the type of positioning method used for an html element.
@@ -85,6 +90,7 @@ A sticky element toggles between relative and fixed, depending on the scroll pos
 
 
 The display: inline-block Value
+
 -----------------------------------
 Compared to display: inline, the major difference is that display: inline-block allows to set a width and height on the element.
 

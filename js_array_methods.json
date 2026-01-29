@@ -1,3 +1,52 @@
+at
+//concat 
+Merging two arrays can also be done with the concat() method.
+let arr1 = [1,2,3,4];
+let arr2 = [5,6];
+let arr3 = [7,8];
+let arr4 = arr1.concat(arr2,arr3);
+//constructor
+copyWithin
+entries
+every
+fill
+find
+filter
+findIndex
+findLast
+findLastIndex
+flat
+flatMap
+forEach
+includes
+//indexOf
+indexOf will return the index of the value put in the parameter,
+//lastIndexOf
+lastIndexOf will give you the last index of the matching values.
+let a = [7, 8, 9, 7];
+a.indexOf(7); // return 0
+a.lastIndexOf(7); // return 3
+a.indexOf(0); // return -1 because no match was found. Same with lastIndexOf
+join
+keys
+map
+pop
+push
+reduce
+reduceRight
+reverse
+shift
+//slice => Using Get a portion of an array
+The slice keyword can have 2 parameters. the starting index and the end index. End index is not sliced. 
+Slice also returns a copy of the array, which means the original array won’t be affected.
+some
+sort
+splice
+toLocaleString
+toString
+unshift
+values
+
 var sample = [1, 2, 3]
 var sum = sample.reduce((sum, elem) => sum + elem)
 console.log(sum)
@@ -18,16 +67,35 @@ Array.isArray(fruits);   // returns true
 (or)
 fruits instanceof Array; // returns true
 
-ECMAScript 5 is not supported in older browsers
+--------------------------------------------------------------------------------------------------------------------------
 
-fruits.constructor.toString().indexOf('Array')>-1
+//Javascript String Methods
+-----------------------------
+
+var str ="abcdef"; output should be -> ["a", "b", "c", "d", "e", "f"]
+ans: str.split('');
+
+var str ="abcdef"; output should be -> ["f", "e", "d", "c", "b", "a"]
+ans: str.split('').reverse();
+
+var str ="abcdef"; output should be -> "fedcba"
+ans: str.split('').reverse().join('');
+
+var arr=["f", "e", "d", "c", "b", "a"] output should be -> "f,e,d,c,b,a"
+ans: arr.join();
+
+var arr=["f", "e", "d", "c", "b", "a"] output should be -> "fedcba"
+ans: arr.join('');
+
 
 1. arr.toString();
 2. arr.join(';');
-3. arr.pop(); // it is easy to remove elements and add new elements
-4. arr.push('elem'); it is easy to add elements and add new elements
-5. arr.shift();
-6. arr.unshift('elem');
+3. arr.pop(); //it is easy to remove elements at end of the array and return that elements(Modify original array)
+              //  No parameter accepted.
+4. arr.push('elem'); // push() method adds one or more elements to the end of an array 
+                     // and returns the new length of the array.
+5. arr.shift();  // it will remove first element at begining of the array and return that element
+6. arr.unshift('elem'); //It will add element at begining of the array
 7. delete fruits[0]; //elements can be deleted by using the JavaScript operator delete
 8. arr.splice(); //method can be used to add new items to an array:
 	Ex: var fruits = ["Banana", "Orange", "Apple", "Mango"];
@@ -36,10 +104,82 @@ fruits.constructor.toString().indexOf('Array')>-1
 9. arr1.concat(arr2, arr3);   // Concatenates arr1 with arr2 and arr3
 10. arr.slice(); //The slice() method creates a new array. It does not remove any elements from the source array.
 	Ex; var citrus = fruits.slice(3);
-	
-------------------------------------------------
 
 
+Array methods in JS?
+----------------------
+  shift() -  return first element from an array and modify the original array. 
+  unshift() - add the given element at the start of an array
+  Push() - add the given element at the end of the array
+  Pop() - return last element from an array and also modify the original array.
+  ------------------------------------------------------------------
+  push(...items) adds items to the end.
+  pop() removes the element from the end and returns it.
+  shift() removes the element from the beginning and returns it.
+  unshift(...items) adds items to the beginning. 
+
+  https://sebhastian.com/learning-javascript-arrays/
+=========================================================================================================================================
+splice() and slice() methods in JS?
+------------------------------------
+splice() method returns removed item(s) in an array. And it can change the original array as well. splice() can take n number of aruguments.
+  
+syntax:
+-------
+splice(start) //The index at which to start changing the array.
+splice(start, deleteCount) //deleteCount Optional
+splice(start, deleteCount, item1, item2, itemN) //item1, item2, ... Optional, The elements to add to the array, beginning from start
+  
+EX:
+var spl = [2,3,4,66,981]
+spl.splice(1); O/P: [2], and also modify the origial array, // spl = [3,4,66,981]
+  
+var spl = [2,3,4,66,981]
+spl.splice(1,3);  O/P: [3,4,66], and also modify the origial array, // spl = [2,981]
+  
+var spl = [2,3,4,66,981]
+  spl.splice(1,3, 10, 12);  O/P: [3,4,66], and also modify the origial array, // spl = [2, 10, 12, 981]
+  
+var spl = [2,3,4,66,981];
+let city = ['chennai', 'cuddalore'];
+spl.splice(1,2, ...city); O/P: [3,4], and also modify the origial array, // [2, 'chennai', 'cuddalore', 66, 981]
+  
+slice() 
+--------
+The slice() method returns a shallow copy of a portion of an array into a new array object selected from start to end,
+where 'start' and 'end' represent the index of items in that array. The original array will not be modified.
+  
+syntax:
+-------
+slice()
+slice(start)
+slice(start, end)
+  
+const animals = ['ant', 'bison', 'camel', 'duck', 'elephant'];
+animals.slice(2); //output: Array ["camel", "duck", "elephant"]
+  
+animals.slice(2, 4)); //output: Array ["camel", "duck"]
+  
+animals.slice(1, 5); //output: Array ["bison", "camel", "duck", "elephant"]
+  
+animals.slice(-2); // output: Array ["duck", "elephant"]
+  
+animals.slice(2, -1); // output: Array ["camel", "duck"]
+  
+animals.slice(); // output: Array ["ant", "bison", "camel", "duck", "elephant"]
+--------------------------------------------------------------------------------------------------------------
+ES5 version use Array.concat:
+------------------------------
+Merging two arrays
+------------------
+const array1 = ["Vijendra","Singh"];
+const array2 = ["Singh", "Shakya"];
+
+var array3 = array1.concat(array2); // Merges both arrays
+// [ 'Vijendra', 'Singh', 'Singh', 'Shakya' ]
+var array3 = array1.push(...array2);
+// [ 'Vijendra', 'Singh', 'Singh', 'Shakya' ]
+array1.splice(2, 0, ...array2);
 
 //Javascript Array Methods;
 
@@ -88,7 +228,8 @@ var persons = [
   {id : 4, name : "Adam", tags : "javascript"},
   {id : 5, name : "Alex", tags : "java"}
 ];
-var javscriptPersons = persons.filter(personObj => personObj.tags.indexOf("javascript") > -1); console.log(javascriptPersons);
+var javscriptPersons = persons.filter(personObj => personObj.tags.indexOf("javascript") > -1); 
+console.log(javascriptPersons);
 -------------------------------------------------------------------------------------------------------------------------------
 
 3. Map
@@ -144,6 +285,8 @@ console.log(animal_names);
 
 4. Reduce
 
+The reduce() method executes a reducer function (that you provide) on each member of the array resulting in a single output value.
+
 As the name already suggest reduce method of the array object is used to reduce the array to one single value.
 
 var sample = [1, 2, 3]
@@ -161,15 +304,23 @@ let total_weight = animals.reduce((weight, animal, index, animals) => {
     return weight += animal.weight
 }, 0) console.log(total_weight);
 
-temp1.reduce(function(prev, cur) { 
-console.log(new Date(prev.clonedStart), new Date(cur.clonedStart))
-if (new Date(cur.clonedStart).getTime()> new Date(prev.clonedEnd).getTime() || new Date(cur.clonedStart).getTime() < new Date(prev.clonedStart).getTime()) {    
-    console.log("Specified date is not in this range.");  
-}  
-else {  
-   console.log("Specified date is within this range.");  
-}  
-        return prev;    });
+var people = [
+{ name: 'Alice', age: 21 },
+{ name: 'Max', age: 20 },
+{ name: 'Jane', age: 20 },
+{ name: 'siva', age: 23 },
+{ name: 'jaga', age: 24 },
+{ name: 'mani', age: 25 },
+];
+
+var groupBy = function(people, property) {
+  return people.reduce((acc, currObj) => {
+    (acc[currObj[property]] = acc[currObj[property]] || []).push(currObj);
+    return acc;
+  }, {});
+};
+groupBy(people, 'age');
+
 --------------------------------------------------------------------------------------------------------------------------------
 5. Find
 .find() When you want to select a single element from an array.
@@ -440,9 +591,10 @@ var cars = [
   {type:"Saab", year:2001},
   {type:"BMW", year:2010}
 ];
+cars.sort((a, b) =>  a.year - b.year);
 cars.sort(function(a, b){return a.year - b.year});
 
-Comparing string properties is a little more complex:
+Comparing string properties:
 ----------------------------------------------------
 cars.sort(function(a, b){
   var x = a.type.toLowerCase();
@@ -451,6 +603,17 @@ cars.sort(function(a, b){
   if (x > y) {return 1;}
   return 0;
 });
+
+Sorting string properties:
+----------------------------------------------------
+var persons = [
+  {id : 1, name : "John", tags : "javascript"}, 
+  {id : 2, name : "Alice", tags : "javascript"}, 
+  {id : 3, name : "Roger", tags : "java"},
+  {id : 4, name : "Adam", tags : "javascript"},
+  {id : 5, name : "Alex", tags : "java"}
+];
+persons.sort((a,b) => a.name > b.name ? 1 : b.name > a.name ? -1 : 0);
 ===========================================================================================================================================================
 //Merge two objects (like multiple inheritance).
 ---------------------------------------------
@@ -478,6 +641,18 @@ var a = { foo: true }, b = { bar: false };
 var c = jQuery.extend(a, b);
 console.log(c);
 output: {foo: true, bar: false}
+
+============================================================================================================================
+3 Ways to Copy Objects in JavaScript
+
+Summary: in this tutorial, you will learn how to copy objects in JavaScript, 
+including shallow copy and deep copy.
+
+Use the spread (...) syntax
+Use the Object.assign() method
+Use the JSON.stringify() and JSON.parse() methods
+
+https://www.javascripttutorial.net/object/3-ways-to-copy-objects-in-javascript/
 
 =============================================================================================================================================================
 //Javascript String Methods
@@ -527,7 +702,6 @@ func(1);
 func("1", "2", "3");
 func(1, 4, 5);
 ==================================================================================================================================
-//Closure
 
 A closure is a feature in JavaScript where an inner function has access to the outer (enclosing) function's variables � a scope chain. 
 
@@ -608,59 +782,16 @@ fun.apply(undefined, ['suriya', 'fe']);
 fun.call(undefined, 'suriya', 'fe')
 
 purpose of using above methods: if we want to pass the different �this� value to the function, and it will invoke the function immediately.
-
-=============================================================================================================================================================
-//Callback function
-------------------
-A callback function is a function passed into another function as an argument, 
-which is then invoked inside the outer function to complete some kind of routine or action.
-
+===============================================================================================================================================
+//Javascript Callback functions
 A callback function, also known as a higher-order function, is a function that is passed to another function 
-(let�s call this other function �otherFunction�) as a parameter, and the callback function is called (or executed) inside the otherFunction. 
-
-A callback is a plain JavaScript function passed to some method as an argument or option. 
-Some callbacks are just events, called to give the user a chance to react when a certain state is triggered.
-// simple callback function
-var x = function(){
-console.log("this is x ");
-}
-var y = function(callback){
-console.log("this is y function")
-callback();
-}
-y(x);
-
-
-function add(a,b){
-return a+b;
-}
-
-function multi(a,b){
-return a*b
-}
-
-var calc = function(a,b,callback){
-if(typeof callback ==='function'){
-return callback(a,b);
-}
-}
-console.log(calc(1,2,multi));
-
-var myarr=[{id:7,str:"apple"},{id:5,str:"mango"},{id:1, str:"banana"}]
-myarr.sort(function(v1,v2){
-if(v1.id>v2.id){
-return -1;
-} else{
-return 1;
-}
-})
-console.log(myarr);
-
+(lets call this other functionotherFunction) as a parameter, and the callback function is called (or executed) inside the otherFunction. 
+Example 1:-
 var friends = ["Mike", "Stacy", "Andy", "Rick"];
 friends.forEach(function (eachName, index){
 console.log(index + 1 + ". " + eachName); // 1. Mike, 2. Stacy, 3. Andy, 4. Rick
 });
-
+==============================================================================================================================
 function greeting(name) {
   alert('Hello ' + name);
 }
@@ -670,10 +801,7 @@ function processUserInput(callback) {
 }
 processUserInput(greeting);
 
-
-A callback function is a function passed into another function as an argument, which is then invoked inside the outer function to complete some kind of routine or action.
-
-
+===================================================================================================================================
 var persons = [
   {id : 1, name : "John", tags : "javascript"}, 
   {id : 2, name : "Alice", tags : "javascript"}, 
@@ -795,30 +923,7 @@ function createPerson(val) {
     console.log(data);
   }
   fetchUser();
-==============================================================================================================================================
-What is the use of the "this" keyword?
-
-The keyword ‘this’ refers to the current instance of the object when used inside a function. But, when used outside a function, it refers to the window object.
-
-What is the difference between typeof and instanceof operators in Javascript?
------------------------------------------------------------------------------
-
-The typeof operator returns a string of what type the operand is. Whereas, the instanceof operator does not work with primitive data types; but works with objects 
-and checks on what type the object is.
-
-
-What is an Event Bubbling in Javascript?
------------------------------------------
-
-When an event is fired on an HTML element, the execution starts from that event and goes to its parent element. From there, the execution passes to its parent 
-element and so on till the body element.
-
-
-Inheritance
-	JavaScript uses prototype based inheritance. Every object has a prototype, and when a method of the object is called then JavaScript tries to find the right 
-function to execute from the prototype object.
-
-=================================================================================================================================================
+============================================================================================================================================
 // console methods
 Measure time taken by a function to execute
 
@@ -837,15 +942,20 @@ console.table(persons , ["id", "tags"]);
 ===================================================================================================================================================
 Geolocation API
 -----------------
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(displayLocationInfo);
-}
+
+function callbackFun(position){
+  console.log(position.coords);
+  }
+navigator.geolocation.getCurrentPosition(callbackFun);
 
 function displayLocationInfo(position) {
   const lng = position.coords.longitude;
   const lat = position.coords.latitude;
+  console.log(`longitude: ${ lng } | latitude: ${ lat }`);  
+}
 
-  console.log(`longitude: ${ lng } | latitude: ${ lat }`);
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(displayLocationInfo);
 }
 
 ==============================================================================================================================================================
@@ -934,8 +1044,8 @@ function Person(name){
 var person1 = new Person('Jaay');
 
 E. using prototype: 
-Special function in javascript. Actually they're object they can create other object and they automatically get a field called prototype. A prototype is a plain 
-with single field, called constructor, pointing the function.
+Special function in javascript. Actually they're object they can create other object and they automatically get a field called prototype. 
+A prototype is a plain with single field, called constructor, pointing the function.
 
 
 function Person(){}
@@ -973,6 +1083,7 @@ var person = {
 		return this.name;
 	}
 }
+
 Ans :  Object.keys(person).length;
 		(or)
 	let count;
@@ -982,23 +1093,12 @@ Ans :  Object.keys(person).length;
 		}
 	}
 
+Find Object length
+------------------
+const tempObj = { b: 'one', a: 'two', c: 'three' };
+Object.keys(tempObj).length;
+
 -----------------------------------------------------------------------------------------------------------------------------------
-//Closure:
-----------------
-	Closure in javascript means an inner function have access to the outer function variable that are defined in the outer function 
-	function outerFunction(){
-	var name = 'Suriya';
-
-	function innerFunction(){
-		console.log('My name is', name)
-	}
-	return innerFunction()
-}
-var callFunction = outerFunction();
-callFunction();
-
-Closures has important role in callbacks and asynchronous programming.
-
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 What is object mutation, sealing and freezing?
@@ -1008,17 +1108,17 @@ An immutable object is an object whose state or properties cannot be changed aft
 Seal an object: Object.seal() method seals an object and preventing new properties from being added to it and making all existing properties as non- configurable. 
 But values of present properties can still be changed as long as they are writable
 	
-var obj = {name : �suriya�}
+var obj = {name : 'suriya'}
 Object.seal(obj); 
 obj.baz = 'age' ; //this new property will not be added since the object is sealed
 obj.name = 'baz'; // by doing this we can still modify the existing property.
 
 Freezing an Object:
 ----------------------
-	Object.freeze() method wont allow to add or modify the exsiting properties
-	var example  = {
-	name :'suriya'
-}
+Object.freeze() method wont allow to add or modify the exsiting properties
+still Object.freeze() doesn't fully freeze an object when it has peroperties that nested object.
+	
+var example  = {name :'suriya'}
 Object.freeze(example); //object freezed
 Object.isFrozen(example) // will return true
 
@@ -1079,6 +1179,7 @@ for(let i=0;i<size;i++){
   return console.log(b);
 }
 fun();
+=========================================================================================================================================
 
 
 Check If an Element is in the Array
@@ -1174,7 +1275,7 @@ f(1, 2, "hello", true, 7) === 9
 ==================================================================================================================================================================
 Javascript DOM manipulation methods?
 ------------------------------------------
-querySelector() � method returns first element that matches one or more css selectors. It will return NULL if no match found
+querySelector()  method returns first element that matches one or more css selectors. It will return NULL if no match found
 
 querySelectorAll() � returns only the first instance of all matching element
  
@@ -1183,33 +1284,11 @@ addEventListener() - <button onclick=foo>hello</button>
 var  btn = document.querySelector(�button�)
 btn.addEventListener(�click�,foo);
 removeEventListener() � detach previously added event 
+btn.addEventListener(click,foo);
+removeEventListener()  detach previously added event 
 createElement()
 appendChild() and removeChild(), replaceChild(), cloneNode()
 setAttribute() and getAttribute()
-
-
-====================================================================================================================================================
-ES6 Features
--------------
-
- -> Classes
- -> Arrow function
- -> Template Strings
- -> Inheritance
- -> Delegation
- -> Constants and Block scoped veriable
- -> Spread and rest parameters
- -> Modules
- 
- 
- =================================================================================================================================================
- TypeScript Features
- -----------------------
- -> Types
- -> Interfaces
- -> Shapes
- -> Decorators
- 
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 JavaScript trics
@@ -1223,23 +1302,18 @@ let matrix = [
 matrix[1][1]; //the central element
 matrix[matrix.length-1][matrix.length-1] //get the last element
 ------------------------------------------------------------------
-push(...items) adds items to the end.
-pop() removes the element from the end and returns it.
-shift() removes the element from the beginning and returns it.
-unshift(...items) adds items to the beginning.
-------------------------------------------------------------------
 To loop over the elements of the array:
 
 for (let i=0; i<arr.length; i++) � works fastest, old-browser-compatible.
 for (let item of arr) � the modern syntax for items only,
 for (let i in arr) � never use.
--------------------------------------------------------------------
+===============================================================================================================================================
 Finding matches between multiple JavaScript Arrays
 -----------------------------------------------------
 var arrays = [
     ['apple', 'orange', 'banana', 'pear', 'fish', 'pancake', 'taco', 'pizza'],
     ['taco', 'fish', 'apple', 'pizza'],
-    ['banana', 'pizza', 'fish', 'apple']
+    ['banana', 'pizza', 'fish', 'apple'],
     ];
 
 var result = arrays.shift().filter(function(v) {
@@ -1266,8 +1340,10 @@ steps:1 -> You could first sort the outer Array to get the shortest Array at the
 			});
 ans: [[6,7,20,80,100],[1,5,10,20,40,80],[3,4,15,20,30,70,80,120]]
 
----------------------------------------------------------------------------------------------------------------
+=============================================================================================================================================
+
 Array rotate from a given array, make n elements rotate.
+---------------------------------------------------------------------------------------------------------------
 
 var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -1283,9 +1359,10 @@ function rotate(n, arr){
 }
 
 
-eg. given Array:[21,54,11,35,4,18], index:3; output Array: [4,18,21,54,11,35]
---------------------------------------------------------------------------------------------------------------
+//eg. given Array:[21,54,11,35,4,18], index:3; output Array: [4,18,+,54,11,35]
+==========================================================================================================================================
 How to remove duplicates an array
+---------------------------------
 
 var ary = [2,1,3,4,6,5,4,7,5,6,8,2,3,6,2,6,4,4,7,3,4,5,6];
 
@@ -1320,13 +1397,144 @@ arr.filter((obj, index) => {
   return arr.map(obj => obj['a']).indexOf(obj['a']) === index;    
 }); // removes duplicate based on the key 'a'
 
----------------------------------------------------------------------------------------------------------------------------
-Find Object length
+How to remove duplicates
+-----------------------------------------------------------------------------------------------
+var arr=["a", "b", "c", "d", "e", "f", "f", "e", "d", "c", "b", "a"];
+var unique_array = Array.from(new Set(arr)); //or [...new Set(arr)]
+ans: ["a", "b", "c", "d", "e", "f"]
 
-Object.keys({ b: 'one', a: 'two', c: 'three' }).length
+let arr = [8, 14, 99, 67, 8, 7, 14, 100, 33, 67];
+let uniqVal = arr.filter((ele, indx, arr) => arr.indexOf(ele) === indx);
+
+How to gets duplicates element
+----------------------------------0
+let arr = [8, 14, 99, 67, 8, 7, 14, 100, 33, 67];
+let duplicateVal = arr.filter((ele, indx, arr) => arr.indexOf(ele) !== indx);
+
+How to find the count of duplicates in an array
+------------------------------------------------
+let arr = [8,14, 99, 67, 8, 7, 14, 100, 33, 67];
+arr.reduce((acc, ele) => {
+  acc[ele] ? acc[ele]++ : (acc[ele] = 1);
+  return acc;
+}, {});
+
+Remove duplicate from Array
+-----------------------------
+var ar = [1,7,4,3,6,8,9,2,5,1,6,8,3];0
+let bset = new Set(ar);
+[...bset];
+(or)
+
+var ar = [1,7,4,3,6,8,9,2,5,1,6,8,3];
+var obj = {};
+for(let i of ar){
+  obj[i]=true;
+}
+Object.keys(obj);
+
+ (or)
+ 
+let ar = [1,3,6,8,9,2,5,1,6,8,3];
+let b=[];
+for(let i=0; i<ar.length;i++){
+b.indexOf(ar[i]) !== -1|| b.push(ar[i]);
+}
+console.log(b);
+====================================================================================================================================
+Most efficient way to groupby on an array of objects
+------------------------------------------------------------------
+var people = [
+  { name: 'Alice', age: 21 },
+{ name: 'Max', age: 20 },
+{ name: 'Jane', age: 20 },
+{ name: 'siva', age: 23 },
+{ name: 'jaga', age: 24 },
+{ name: 'mani', age: 25 },
+];
+
+var groupBy = function(people, property) {
+  return people.reduce((acc, currObj) => {
+    (acc[currObj[property]] = acc[currObj[property]] || []).push(currObj);
+    return acc;
+  }, {});
+};
+groupBy(people, 'age');
+
+function groupBy(objectArray, property) {
+  return objectArray.reduce((acc, obj) => {
+    var key = obj[property];
+    if (!acc[key]) {
+      acc[key] = [];
+    }
+    acc[key].push(obj);
+    return acc;
+  }, {});
+}
+var groupedPeople = groupBy(people, 'age');
+
+(or)
+
+Using lodash we can write simply.
+lodash.groupBy(cars, 'make');
+https://lodash.com/
+
+=======================================================================================================================================
+var alternateCase = function (s) {
 
 
----------------------------------------------------------------------------------------------------------------------------
+function removeAlt(){
+const ar= [];
+for (var i = 0; i < a.length; i++) {
+    if(i % 2 === 0) {
+        ar.push(a[i]);
+    }
+}
+return ar.join("");
+}
+removeAlt("ranjitkumar");
+
+  var chars = [];
+  for (var i = 0; i < s.length; i+=2) {
+   chars.push(s[i]);
+  }
+  return chars.join("");
+};
+alternateCase("ranjitkumar");
+O/P : 'rnikmr'
+=================================================================================================================================
+Type coercion rules
+-----------------------
+"" + 1 + 0 // "10" 
+"" - 1 + 0 // -1
+"" - 1 + 7 // 6
+"" - 'world' + 7 //NaN
++ 1 + 0 or 1 + 0 // 1 
+- 1 + 0 // -1
+"1" - 7 // -6
+"1" + 7 // 17
++"1" + 7 // 8
+"world" + 7 // NaN
+true + false // 1
+6 / "3" // 2
+"2" * "3" // 6
+"2" + "3" // '23'
+"2" - "3"; // -1
++ "2" + "3" // '23'
+"" + 2 + '3' // '23'
++ "2" + "3" // '23'
+4 + 5 + "px" // '9px'
+"$" + 4 + 5 //'$45'
+"4" - 2     // 2 
+"4px" + 8 - 2 // NaN
+"4" + 8 - 2  // 46
+"4" + '8' + 2 // 482
+"  -9  " + 5 // '  -9  5'
+"  -9  " - 5 // -14
+null + 1 // 1
+undefined + 1 //NaN
+" \t \n" - 2  //-2
+"\t \n" + 2  // '\t\n2'
 
 Fibonacci Series
 ===================
@@ -1343,6 +1551,219 @@ console.log(feb);
 }
 fibonacci(10);
 
+let a = prompt("First number?", 1);
+let b = prompt("Second number?", 2);
+alert(a + b); // 12
+
+let a = +prompt("First number?", 1);
+let b = +prompt("Second number?", 2);
+alert(a + b); // 3
+Or in the alert:
+let a = prompt("First number?", 1);
+let b = prompt("Second number?", 2);
+alert(+a + +b); // 3
+https://javascript.info/operators
+===========================================================================================================
+How do I extract even elements of an Array
+--------------------------------------------
+let arr = [8, 10, 17, 19, 100, 99, 88, 21];
+arr.filter((num) => num %2 === 0); 
+
+How do I extract Odd elements of an Array
+-------------------------------------------
+let arr = [8, 10, 17, 19, 100, 99, 88, 21];
+arr.filter((num) => num %2 === 1); 
+
+Odd numbers: arr.filter((e,i)=>i%2)
+Even numbers: arr.filter((e,i)=>!(i%2)
+============================================================================================================
+JS RegExp
+-----------
+
+const str = "fee fi fo fum";
+str.split(' '); // ['fee', 'fi', 'fo', 'fum']
+str.match(/\w+\s/g); //  ['fee ', 'fi ', 'fo ']
+
+const str = "In this12 tutorial, you6 will 23 learn about JavaScript regular expressions 
+(Regex) with the help of hsds examples 100";
+str.replaceAll(/\d+/g, ''); //remove all digits from the string.
+str.match(/\d+/g); o/p: ['12', '6', '23', '100'] //to get all numbers
+
+let stock = "1 lemon, 2 cabbages, and 101 eggs";
+stock.match(/(\d+) (\w+)/g);
+// ['1 lemon', '2 cabbages', '101 eggs']
+
+const str = "Insax1! this12 tutorial, you6 #will 23 learn about JavaScript regular ex-_pressions (Regex) with the help of hsds examples 100";
+str.replace(/[^a-zA-Z ]/gi, ''); //remove all digits and special chracters from the string.
+
+const str = "Insax1! this12 tutorial, you6 #will 23 learn about JavaScript regular ex-_pressions (Regex) with the help of hsds examples 100";
+str.replace(/[^\w\s]/gi, ''); //remove all  special chracters from the string.
+
+=====================================================================================
+Hw to check if a given number is an interger?
+-------------------------------------------
+let num = "10";
+console.log(!isNaN(num)); //true
+
+=============================================================================================================================================
+what is shallow copy and Deep copy
+-----------------------------------------
+let embObj = {
+  eid: 'E102',
+  ename: 'Jack',
+  eaddress: {
+    city: 'chennai',
+    State: 'TN',
+  },
+  salary: 500,
+};
+
+let newEmpObj = embObj;
+newEmpObj.ename = 'john';
+console.log(embObj);
+O/P: {
+  eid: 'E102',
+  ename: 'john',
+  eaddress: {
+    city: 'chennai',
+    State: 'TN',
+  },
+  salary: 500,
+};
+
+let embObj = {
+  eid: 'E102',
+  ename: 'Jack',
+  eaddress: {
+    city: 'chennai',
+    State: 'TN',
+  },
+  salary: 50000,
+};
+
+let newEmpObj = Object.assign({}, embObj); 
+(or)
+let newEmpObj = {...embObj}; // One way to take deep copy but this will not work on referance data type like array of object.
+newEmpObj.ename = 'john';    // take deep copy only the the primitive data types for example number, string, boolean.
+console.log(exEmployee);
+console.log(newEmpObj);
+
+console.log("=========Deep Copy========");
+let newEmpObj = JSON.parse(JSON.stringify(employee)); //this way can take object deep copy.
+
+var people = [
+  { name: 'Alice', age: 21 },
+  { name: 'Max', age: 20 },
+  { name: 'Jane', age: 20 },
+  { name: 'siva', age: 23 },
+  { name: 'jaga', age: 24 },
+  { name: 'mani', age: 25 },
+  ];
+
+  let parseJson = JSON.parse(JSON.stringify(people));
+  parseJson[0].age = 30;
+  console.log(people)
+
+https://anuradha.hashnode.dev/shallow-vs-deep-copy-in-javascript
+
+ES6 (shallow copy);
+--------------------
+var A1 = {a: "2"};
+var A2 = Object.assign({}, A1);
+var A3 = {...A1};  // Spread Syntax
+  
+====================================================================================================================================================
+//Flatten an array
+The flat() method creates a new array with all sub-array elements concatenated into it recursively up to the specified depth.
+
+
+const arr1 = [0, 1, 2, [3, 4]];
+console.log(arr1.flat());
+
+//otherway to do.
+
+var arr1 = [1, 2, 3, [1, 2, 3, 4, [2, 3, 4]]];
+let arr = [[1, 2],[3, 4],[5, 6],[7, 8, 9],[10, 11, 12,[16, 17], 13, 14, 15]];
+function flatDeep(arr) {
+    return arr.reduce((acc, val) =>
+        Array.isArray(val) ? acc.concat(flatDeep(val)) : acc.concat(val),[]);
+};
+
+console.log(flatDeep(arr));
+
+function flattenDeep(arr1) {
+  return arr1.reduce((acc, val) =>
+      Array.isArray(val) ? acc.concat(flattenDeep(val)) : acc.concat(val),[],);
+}
+console.log(flattenDeep(arr1));
+
+https://flexiple.com/flatten-array-javascript/
+
+//Array prototype inheritance
+
+Array.prototype.flatDeep = function(){
+  return this.reduce((acc, val) =>
+      Array.isArray(val) ? acc.concat(val.flatDeep()) : acc.concat(val),[]);
+  };
+  console.log([1, 2, [1, 2, 3], 4, [6, 5]].flatDeep());
+  console.log(arr.flatDeep());
+  console.log(arr1.flatDeep());
+  
+============================================================================
+What is Rest and spread, What Difference between:
+---------------------------------------------------
+
+Rest parameter: collects all remaining elements into an array.
+Spread operator: allows iterables ( arrays / objects / strings) to be 
+expanded into single arguments/elements.
+
+===============================================================================
+//call, apply, bind = function borrowing 
+
+let name1 = {
+  fname: "v8",
+  lname: "spidermonkey",
+}
+let name2 = {
+  fname: "Google",
+  lname: "Alpha",
+}
+
+function printFullName(...args){
+  console.log(this.fname+ " " + this.lname, "from", args[0] +" ", args[1]);
+}
+
+//call 
+printFullName.call(name1, "chennai", "TN");
+//apply - the second argument intead off passing indually passing as a array
+printFullName.apply(name2, ["chennai", "TN"]);
+// bind
+let bindFunc = printFullName.bind(name1, "chennai", "TN");
+console.log(bindFunc);
+bindFunc();
+
+============================================================================
+ES6 Features
+-------------
+
+ -> Classes
+ -> Arrow function
+ -> Template Strings
+ -> Inheritance
+ -> Delegation
+ -> Constants and Block scoped veriable
+ -> Spread and rest parameters
+ -> Modules
+ 
+ 
+ =================================================================================================================================================
+ TypeScript Features
+ -----------------------
+ -> Types
+ -> Interfaces
+ -> Shapes
+ -> Decorators
+ 
 
 RxJs Observable
 ------------------------------------------

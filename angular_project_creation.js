@@ -1,10 +1,16 @@
 angular project creation step
 =====================================
 
+component
+---------------
+ng generate component <name> [options]
+ng g component <name> [options]
 
+ng g component <name> --m=module name
 
 Module generate with Routing
 ----------------------------
+ng g module <name> [options]
 ng g module authenticate-module --routing=true
 
 

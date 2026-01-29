@@ -1,3 +1,11 @@
+Common Ways to Check Authentication
+
+JWT token in localStorage / cookies
+Auth state from Context / Redux
+Session validation API call
+OAuth / SSO tokens
+
+
 
 Want known the Web  technology’s
 
