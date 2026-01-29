@@ -1,0 +1,107 @@
+JSX – HTML-like syntax inside JavaScript
+Components – Reusable UI building blocks it has own business logic
+Props – Read-only data passed to components
+State – Mutable data managed inside a component
+
+1. Functional Components & Hooks (Most Important)
+
+Common Hooks:
+
+| Hook          | Purpose                           |
+| ------------- | --------------------------------- |
+| `useState`    | Local state                       |
+| `useEffect`   | Side effects (API, subscriptions) |
+| `useContext`  | Global state                      |
+| `useRef`      | DOM reference / mutable value     |
+| `useMemo`     | Memoize expensive calculation     | useMemo → optimize values
+| `useCallback` | Memoize functions                 | useCallback → optimize functions
+| `useReducer ` |                                   | 
+
+customee Hooks- what?, why?, how? Examples
+
+2. Higher order component(HOC) what? Why? when? How?
+
+3. Life cycle methods of component (for class component)
+
+4. Component Design & Reusability
+    Best Practices:
+    Small, focused components
+    Presentational vs Container components
+    Reusable UI with props + composition
+    Controlled vs uncontrolled components
+
+4. State Management (State / Props, Prop drilling, context)
+    Sub Topics : 
+    Local State → useState
+    Global State → Context API -> Prefer Context API for medium apps
+    Large Apps → Redux / Zustand -> Use Redux only when state becomes complex
+
+5. Redux / Zustand -> Why?, How?, When?
+
+6. Routing
+    React Routing
+    Pynamic Routing
+    Protected Routing (RBAC & ABAC)
+    Query param
+
+7. Forms & Validation
+    Controlled components
+    Validation using Formik / React Hook Form
+    Custom validation logic
+
+8. API Calls
+    Fetch
+    Axios
+
+9. Performance Optimization (Senior-Level Topic)
+    Techniques:
+    React.memo
+    useMemo, useCallback
+    Avoid unnecessary re-renders
+    Asset optimization
+    Write optimization
+    Bunduler
+    Rendering component faster
+    
+    Lazy loading (React.lazy)
+        Code splitting
+        Suspense
+        reduce code junking 
+
+10. Virtual DOM
+    Reconcilation
+    React fiber
+    Render component -> how render work
+    Differ algorithm
+
+11. SSR Vs CSR -> difference, what?
+
+12. Async Task
+    Events
+    Promises
+
+13. Testing & Quality -> unit testing -(VITest, Jest)
+    
+    Vitest -> is a modern, fast testing framework that integrates seamlessly with React applications 
+            built using Vite
+        Key Notes: 
+        React Testing Library (RTL)
+        jsdom (or happy-dom)
+        @testing-library/jest-dom
+    Jest
+    Component unit testing
+    Snapshot testing
+    Reusability / modularity / testability / readabiity
+
+14. Stylying 
+    Tailwind CSS Vs Bootstrap 
+
+15. Advanced Topics (Interview + Real Projects)
+    Micro Frontends
+    Web Components integration (Stencil + React)
+    Mono repo
+    Nx
+    Security (XSS, CSRF)
+    
+
+

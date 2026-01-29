@@ -1,0 +1,300 @@
+Here are Angular latest interview questions (2024–2025), grouped by beginner → advanced,  Manipulates DOM structure or behavior
+with a strong focus on real-world and senior-level expectations. 
+This will be especially useful for you as a Senior Front-End Developer (Angular + React).
+===============================================================================================================
+
+🔹 Angular Core & Basics
+
+1. What is Angular and how is it different from AngularJS?
+2. What are the main features introduced in the latest Angular versions?
+    2.1. Signals (🔥 Most Important)
+    2.2 Standalone Components (No NgModule)
+    2.3. Modern Control Flow (@if, @for, @switch)
+    2.4. Deferred Loading (@defer) => Loads parts of the UI only when needed (on scroll, idle, interaction).
+    2.5. Zoneless Change Detection (Advanced) => Angular can now work without zone.js, relying on signals and explicit triggers.
+      Why?
+      Better performance
+      Predictable updates
+      Smaller bundle size
+
+    2.6. Improved SSR & Hydration => Hydration reuses server-rendered DOM on the client instead of destroying and re-rendering it.
+    2.7. ESBuild & Faster Builds => esbuild is an extremely fast, modern JavaScript bundler and minifier for web development
+     Angular replaced Webpack with ESBuild internally.
+    2.8. Improved Router (Standalone + Lazy)
+        True component-level lazy loading
+        No modules needed
+
+3. What is standalone components in Angular?
+  A component that does not require NgModule and can be used directly.
+  Why?
+  Less boilerplate
+  Easier to maintain
+  Faster onboarding
+  Standalone components are now the recommended default for new Angular apps.
+
+4. What is the role of NgModule? Is it still required?
+  NgModule was traditionally used to organize and bootstrap Angular applications, 
+  but with the introduction of standalone components, it is no longer required for new apps. 
+  Angular now recommends a component-first architecture, while NgModule remains supported for legacy and migration use cases.
+
+5. What are signals in Angular?
+  Signals are Angular’s new reactive primitive for managing state with fine-grained reactivity.
+  They automatically track dependencies and update only what changes.
+  Why signals?
+  Better performance
+  Less boilerplate than RxJS for UI state
+  Predictable change detection
+  Signals reduce unnecessary change detection and are ideal for local UI state.
+
+6. Difference between Component and Directive?
+  A Component is a directive with a template.
+  It controls a view (UI) and is used to build screens and layouts.
+✅ Key Points
+    Always has an HTML template
+    Used to create reusable UI blocks
+    Defined using @Component
+    Can have styles, lifecycle hooks, and business logic
+
+  A Directive is used to change the behavior or appearance of an existing DOM element.It does not have its own template.
+✅ Key Points
+    No template
+    Enhances or modifies existing elements
+    Defined using @Directive
+    Commonly used for DOM manipulation
+
+7. What is directive? Types of directives in Angular? =>
+  Angular directives are of three types:
+   1.Component Directive => A component is actually a special type of directive with a template.
+   2.Structural Directives => change the structure of the DOM by adding or removing elements.(ex: *ngIf, *ngFor,*ngSwitch, ngTemplate)
+   3.Attribute Directives => change the appearance or behavior of an existing element.(ngClass, ngStyle)
+   4.last Custom directive 
+
+  What is a Custom Structural Directive? => changes the DOM structure by adding or removing elements.
+      Angular provides:
+        TemplateRef → represents the template
+        ViewContainerRef → controls where the template is rendered
+        
+  Is Directive support Lifecycle Hooks?
+      Yes,Directives support the same lifecycle hooks as components (except template-related ones).
+      ✅ Common Directive Lifecycle Hooks
+        ngOnInit ->Runs once after directive initialization
+        ngOnChanges -> Runs when @Input() values change
+        ngDoCheck -> Custom change detection logic
+        ngOnDestroy -> Cleanup (unsubscribe, remove listeners)
+
+      ⚠️ Hooks NOT Available (These depend on templates, which directives don’t have)
+        ngAfterViewInit
+        ngAfterContentInit
+
+  Directive vs Pipe => Pipe is Transforms data in templates, lot of build in pipes available in angular, even can create custome pipe as well
+
+8. What is dependency injection (DI) in Angular?
+Dependency Injection in Angular is a design pattern where services are provided by Angular’s injector instead of being created manually, 
+promoting loose coupling, reusability, and testability.
+
+9. What is zone.js and why does Angular use it?
+
+10. What is Change Detection?
+
+🔹 Components & Templates
+=================================
+1. What is OnPush change detection?
+
+2. How does Angular handle data binding?
+
+3. Difference between: @Input() vs @Output()
+
+4. ViewChild vs ContentChild
+
+5. What are template reference variables?
+
+6. What is ng-template, ng-container, ng-content?
+
+7. What are host bindings and host listeners?
+
+8. How do you communicate between unrelated components?
+
+🔹 Angular Signals (Latest & Trending 🔥)
+=================================================================
+
+1. What are Angular signals?
+
+2. Signal vs Observable – when to use what?
+
+3. What are computed() and effect()?
+
+4. How do signals improve performance?
+
+5. Can signals replace RxJS completely?
+
+🔹 Services & Dependency Injection
+================================================
+
+1. What are services and why are they needed?
+
+2. What is providedIn: 'root'?
+
+3. Difference between Singleton and Scoped services
+
+4. What are Injection Tokens?
+
+5. How do you share data between components using services?
+
+🔹 Routing & Navigation
+===========================================================
+
+1. What is lazy loading?
+
+2.. Difference between loadChildren and standalone route providers
+
+What are route guards?
+
+Explain:
+
+CanActivate
+
+CanDeactivate
+
+Resolve
+
+What is preloading strategy?
+
+How does Angular handle route reuse?
+
+🔹 Forms (Very Important 💡)
+
+Difference between Template-driven and Reactive forms
+
+What is FormBuilder?
+
+What are FormGroup, FormControl, FormArray?
+
+How do you create custom validators?
+
+What is async validation?
+
+How do you handle dynamic forms?
+
+How do you track form changes efficiently?
+
+🔹 RxJS & State Management
+
+What is RxJS and why is it used in Angular?
+
+Difference between:
+
+Subject vs BehaviorSubject
+
+mergeMap vs switchMap
+
+What is the async pipe?
+
+How do you prevent memory leaks?
+
+What is NgRx?
+
+Signal-based state vs NgRx – which is better?
+
+🔹 Performance Optimization (Senior-Level ⭐)
+
+How do you optimize Angular application performance?
+
+What causes unnecessary change detection cycles?
+
+How does trackBy improve performance?
+
+What is server-side rendering (Angular Universal)?
+
+What is hydration in Angular?
+
+How do you reduce bundle size?
+
+What is defer loading (@defer)?
+
+🔹 HTTP & API Handling
+
+What is HttpClient?
+
+How do HTTP interceptors work?
+
+How do you handle global error handling?
+
+What is retry, catchError, finalize?
+
+How do you cancel HTTP requests?
+
+🔹 Security
+
+What is XSS and how does Angular prevent it?
+
+What is DomSanitizer?
+
+How do you secure routes?
+
+What are CSRF tokens?
+
+🔹 Testing
+
+Difference between Jasmine and Jest
+
+What is TestBed?
+
+How do you test components with services?
+
+What is mocking?
+
+How do you test HTTP calls?
+
+What is e2e testing?
+
+🔹 Angular Architecture & Best Practices
+
+How do you structure a large Angular application?
+
+What is Smart vs Dumb components?
+
+How do you enforce coding standards?
+
+What is a shared module?
+
+How do you handle feature isolation?
+
+How do you migrate legacy Angular apps?
+
+🔹 Real-World / Scenario-Based Questions (Very Important 🔥)
+
+How would you design a reusable component library in Angular?
+
+How do you share UI components across Angular & React apps?
+
+How do you handle role-based access control?
+
+How do you manage multi-tenant applications?
+
+How do you handle large forms with validations?
+
+How do you improve initial page load time?
+
+🔹 Angular + Modern Tooling
+
+What is Vite in Angular?
+
+What is ESBuild?
+
+Difference between Webpack and ESBuild
+
+What are Angular schematics?
+
+What is Nx?
+
+🔹 Quick HR / Managerial Questions
+
+How do you keep Angular skills up to date?
+
+How do you review junior developers’ code?
+
+How do you handle production bugs?
+
+Explain a challenging Angular project you worked on
+
+Why should we hire you as a Senior Angular Developer?

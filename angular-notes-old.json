@@ -1,0 +1,2525 @@
+@NgModule 
+===================
+ @NgModule takes a metadata object that describes how to compile a component's template and how to create an injector at runtime. 
+	It identifies the module's own components, directives, and pipes, making some of them public, through the exports property, 
+	so that external components can use them. 
+	@NgModule can also add service providers to the application dependency injectors.
+
+Providers
+=============
+A provider is an instruction to the DI system on how to obtain a value for a dependency. Most of the time, 
+these dependencies are services that you create and provide.
+
+
+Dependency Injection
+===================
+
+It's design pattern in angular.
+It has abilty to add the functionality to the components at the run time. It will be available across the application.
+
+Delegation
+===============
+The event delegation may be used to optimize event handling.
+We use a single handler for similar actions on many elements. Like we did it for highlighting <td>.
+
+The idea is that if we have a lot of elements handled in a similar way, then instead of assigning a handler to each of them – we put a single handler on their common ancestor.
+
+In the handler we get event.target, see where the event actually happened and handle it.
+
+differences between promises and observables  - Using to work with asynchronous data we can use either Promises or Observables. 
+=============================================
+observables is more powefull way of handling http requests. 
+promise handles a single event in http request whether its complete or fail 
+observables like a stream 
+observables can be canceled
+observables supports map,filter,reduce operends
+
+Promise	
+----------
+Emits a single value
+Not Lazy
+Cannot be cancelled	
+
+Observable
+------------------
+Emits multiple values over a period of time
+Lazy. An Observable is not called until we subscribe to the Observable
+Can be cancelled using the unsubscribe() method
+Observable provides operators like map, forEach, filter, reduce, retry, retryWhen etc.
+
+how to resubscribe and retry an Observable if there is an error
+==============================================================
+
+
+Lexical Scope
+Public and Private Scope
+
+
+What is a pure pipe?
+========================
+A: A pipe that is only executed when Angular detects a pure change to the input value (e.g. new primitive object or new object reference).
+
+What is an impure pipe?
+
+A: A pipe that is executed during every component change detection cycle (i.e., often – every keystroke, mouse move).
+
+What is an async pipe?
+
+A: An impure pipe that accepts a promise or observable as input and eventually returns emitted values.
+
+What kind of data can be used with async pipe?
+
+A: Stateful, asynchronous
+
+What types of pipes are supported in Angular 2?
+
+A: Pure and impure pipes (async pipes are a kind of impure pipe).
+
+
+
+What is the difference between RouterModule.forRoot() vs RouterModule.forChild()? Why is it important?
+======================================================================================================
+A: forRoot is a convention for configuring app-wide Router service with routes, 
+whereas forChild is for configuring the routes of lazy-loaded modules.
+
+Sharing Data b/w one component to another
+------------------------------------------------------------
+Parent to Child: Sharing Data via Input
+-------------------------------------------------------
+This is probably the most common and straightforward method of sharing data. 
+It works by using the @Input() decorator to allow data to be passed via the template.
+
+parent.component.ts
+-----------------------------
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-parent',
+  template: `
+    <app-child [childMessage]="parentMessage"></app-child>
+  `,
+  styleUrls: ['./parent.component.css']
+})
+export class ParentComponent{
+  parentMessage = "message from parent"
+  constructor() { }
+}
+child.component.ts
+----------------------------
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-child',
+  template: `
+      Say {{ message }}
+  `,
+  styleUrls: ['./child.component.css']
+})
+export class ChildComponent {
+
+  @Input() childMessage: string;
+
+  constructor() { }
+
+}
+
+Child to Parent: Sharing Data via ViewChild
+-------------------------------------------------------------
+ViewChild allows a one component to be injected into another, giving the parent access to its attributes and functions. 
+One caveat, however, is that child won't be available until after the view has been initialized. 
+This means we need to implement the AfterViewInit lifecycle hook to receive the data from the child.
+
+parent.component.ts
+----------------------------
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { ChildComponent } from "../child/child.component";
+
+@Component({
+  selector: 'app-parent',
+  template: `
+    Message: {{ message }}
+    <app-child></app-child>
+  `,
+  styleUrls: ['./parent.component.css']
+})
+export class ParentComponent implements AfterViewInit {
+
+  @ViewChild(ChildComponent) child;
+
+  constructor() { }
+
+  message:string;
+
+  ngAfterViewInit() {
+    this.message = this.child.message
+  }
+}
+child.component.ts
+----------------------------
+import { Component} from '@angular/core';
+
+@Component({
+  selector: 'app-child',
+  template: `
+  `,
+  styleUrls: ['./child.component.css']
+})
+export class ChildComponent {
+
+  message = 'Hola Mundo!';
+
+  constructor() { }
+
+}
+
+Child to Parent: Sharing Data via Output() and EventEmitter
+-------------------------------------------------------------------------------------
+Another way to share data is to emit data from the child, which can be listed to by the parent. This approach is ideal when you want to share data changes that occur on things like button clicks, form entires, and other user events.
+
+In the parent, we create a function to receive the message and set it equal to the message variable.
+
+In the child, we declare a messageEvent variable with the Output decorator and set it equal to a new event emitter. Then we create a function named sendMessage that calls emit on this event with the message we want to send. Lastly, we create a button to trigger this function.
+
+The parent can now subscribe to this messageEvent that’s outputted by the child component, then run the receive message function whenever this event occurs.
+
+parent.component.ts
+----------------------------
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-parent',
+  template: `
+    Message: {{message}}
+    <app-child (messageEvent)="receiveMessage($event)"></app-child>
+  `,
+  styleUrls: ['./parent.component.css']
+})
+export class ParentComponent {
+
+  constructor() { }
+
+  message:string;
+
+  receiveMessage($event) {
+    this.message = $event
+  }
+}
+child.component.ts
+----------------------------
+import { Component, Output, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-child',
+  template: `
+      <button (click)="sendMessage()">Send Message</button>
+  `,
+  styleUrls: ['./child.component.css']
+})
+export class ChildComponent {
+
+  message: string = "Hola Mundo!"
+
+  @Output() messageEvent = new EventEmitter<string>();
+
+  constructor() { }
+
+  sendMessage() {
+    this.messageEvent.emit(this.message)
+  }
+}
+Unrelated Components: Sharing Data with a Service
+------------------------------------------------------------------------------------
+When passing data between components that lack a direct connection, such as siblings, grandchildren, etc, you should you a shared service. When you have data that 
+should aways been in sync, I find the RxJS BehaviorSubject very useful in this situation.
+
+You can also use a regular RxJS Subject for sharing data via the service, but here’s why I prefer a BehaviorSubject.
+
+It will always return the current value on subscription - there is no need to call on next
+It has a getValue() function to extract the last value as raw data.
+It ensures that the component always receives the most recent data.
+In the service, we create a private BehaviorSubject that will hold the current value of the message. We define a currentMessage variable handle this data stream as 
+an observable that will be used by the components. Lastly, we create function that calls next on the BehaviorSubject to change its value.
+
+The parent, child, and sibling components all receive the same treatment. We inject the DataService in the constructor, then subscribe to the currentMessage 
+observable and set its value equal to the message variable.
+
+Now if we create a function in any one of these components that changes the value of the message. when this function is executed the new data it’s automatically 
+broadcast to all other components.
+
+data.service.ts
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+
+@Injectable()
+export class DataService {
+
+  private messageSource = new BehaviorSubject('default message');
+  currentMessage = this.messageSource.asObservable();
+
+  constructor() { }
+
+  changeMessage(message: string) {
+    this.messageSource.next(message)
+  }
+
+}
+parent.component.ts
+import { Component, OnInit } from '@angular/core';
+import { DataService } from "../data.service";
+
+@Component({
+  selector: 'app-parent',
+  template: `
+    {{message}}
+  `,
+  styleUrls: ['./sibling.component.css']
+})
+export class ParentComponent implements OnInit {
+
+  message:string;
+
+  constructor(private data: DataService) { }
+
+  ngOnInit() {
+    this.data.currentMessage.subscribe(message => this.message = message)
+  }
+
+}
+sibling.component.ts
+import { Component, OnInit } from '@angular/core';
+import { DataService } from "../data.service";
+
+@Component({
+  selector: 'app-sibling',
+  template: `
+    {{message}}
+    <button (click)="newMessage()">New Message</button>
+  `,
+  styleUrls: ['./sibling.component.css']
+})
+export class SiblingComponent implements OnInit {
+
+  message:string;
+
+  constructor(private data: DataService) { }
+
+  ngOnInit() {
+    this.data.currentMessage.subscribe(message => this.message = message)
+  }
+
+  newMessage() {
+    this.data.changeMessage("Hello from Sibling")
+  }
+
+}
+
+setTimeOut Alternative Event in angular 6
+--------------------------------------------------------
+let stopFlag = falsel;
+Observable.interval(1000).takeWhile(()=>!stopFlag).subscribe(()=>{
+	stopFlag = true; //to stop the setInterval
+});
+
+
+What is webpack?
+------------------------------------------------
+Webpack is a popular module bundler which is used as a tool for bundling application source code in small blocks or chunks, 
+so that code can be loaded on demand from the server into a browser. This is also referred to as “code splitting”.
+
+The bundle is a JavaScript file which incorporates assets belonging together, and is served to the client in a response to a single file request. This bundle can 
+include JavaScript, HTML, CSS and other type of files. Following are some goals of the WebPack:
+
+Best suited for big projects where several libraries are used on the client side.
+Easy to integrate third party libraries as modules in an application
+Spilt dependencies across components into small block and loaded on demand.
+Every static asset of application (html, Css, image) is loaded as module.
+A major part of Webpack is loaders. These are used to transform any type of files e.g. CoffeScript into JavaScript, or inline images as data URLs and so on. 
+Loaders preprocess files which are used in application using require() or import.
+
+Our Angular 2 project in this article is implemented using Visual Studio Code (VSCode), which is a free IDE by Microsoft.
+
+AOT
+-----------
+AOT does not support typescript version that is above 2.0.10 now. You need to make sure that. Also, you have to change some angular modules like http, 
+platform-browser, or core back to angular 2 -- I use version 2.4.0 --, because typescript of version 2.0.10 or below does not support them!
+
+The Angular Ahead-of-Time (AOT) compiler converts your Angular HTML and TypeScript code into efficient JavaScript code during the build phase before 
+the browser downloads and runs that code.
+
+This guide explains how to build with the AOT compiler using different compiler options and how to write Angular metadata that AOT can compile.
+
+Angular 5
+----------------
+
+Life Cycle of Angular 
+-----------------------------
+
+ngOnChanges - called when an input binding value changes
+ngOnInit - after the first ngOnChanges
+ngDoCheck - after every run of change detection
+ngAfterContentInit - after component content initialized
+ngAfterContentChecked - after every check of component content
+ngAfterViewInit  - Respond after Angular initializes the component's views and child views / the view that a directive is in.
+ngAfterViewChecked - after every check of a component's view(s)
+ngOnDestroy - just before the component is destroyed
+
+OnChanges
+----------------
+OnChanges is a lifecycle hook that is called when any data-bound property of a directive changes. OnChanges is an interface that has a method declaration as follows.
+ngOnChanges(changes: SimpleChanges) A component that needs to detect changes in its data-bound property of a directive, has to implement OnChanges interface and override its ngOnChanges() method. It has the argument as SimpleChanges that is used to get new and previous values of input property. They are used as follows.
+
+ngOnChanges: 
+----------------------
+Called every time a data-bound input property changes. It’s called a first time before the ngOnInit hook. The hook receives a SimpleChanges object that contains 
+the previous and current values for the data-bound inputs properties. This hook gets called often, so it’s a good idea to limit the amount of processing it does.
+
+syntax
+------------
+@Input() employee: Employee;	
+@Input() message: string;	
+
+ngOnChanges(changes: SimpleChanges) {
+     for (let propName in changes) {  
+	let change = changes[propName];
+	let curVal  = JSON.stringify(change.currentValue);
+	let prevVal = JSON.stringify(change.previousValue);
+
+        console.log(curVal);
+        console.log(prevVal);
+     }
+  }
+
+SimpleChange
+------------------------
+SimpleChange Class and SimpleChanges Interface
+SimpleChange class represents a basic change from a previous to new value. It has following class members. Suppose there is a change in input value, then following property can be used to detect changes. 
+previousValue: Keeps previous value of input property. 
+currentValue: Keeps current value of input property. 
+isFirstChange(): Boolean value that tells whether the new value is the first value assigned. 
+
+SimpleChanges is the interface that represents the changes object for all input property. SimpleChanges has the key as input property names and values are the instances of SimpleChange class.
+
+
+ngOnInit: 
+----------------------
+Called once upon initialization of the component.
+
+ngDoCheck
+----------------------
+Use this hook instead of ngOnChanges for changes that Angular doesn’t detect. It gets called at every change detection cycle, so keeping what it does to a minimum is important for performance.
+
+ngAfterContentInit: 
+------------------------
+Called after content is projected in the component.
+
+ngAfterContentChecked: 
+--------------------------------------------
+Called after the projected content is checked.
+
+ngAfterViewInit: 
+----------------------
+Called after a component’s view or child view is initialized.
+ngAfterViewChecked: 
+---------------------------
+Called after a component’s view or child view is checked.
+
+ngOnDestroy:
+----------------------
+ Called once when the component is destroyed and a good hook to use to cleanup and unsubscribe from observables.
+
+ngOnDestroy()
+------------------------
+Cleanup just before Angular destroys the directive/component. Unsubscribe observables and detach event handlers to avoid memory leaks
+(which slows down performance and causes crashes).
+
+Similar to the takeWhile() operator, the takeUntil() will emit values until the provided observable emits a value. 
+So, while the takeWhile() operator will emit values while the boolean value provided is true, the takeUntil() operator will emit values until a provided observable 
+emits a value.
+
+Directives
+-----------------
+Attribute Directive
+===============
+1. NgStyle Directive
+----------------------------
+[ngStyle]="{
+        'color': 'red',
+        'font-weight': 'bold',
+        'borderBottom': borderStyle
+      }"
+[ngStyle]="alertStyles"	--- this is variable and its defined in component
+
+alertStyles = {
+    'color': 'red',
+    'font-weight': 'bold',
+    'borderBottom': this.borderStyle
+  };
+ 
+ Structural Directives
+ ==================
+ Structural Directives are a way of handling how a component or element renders through the use of the template tag. This allows us to run some code that decides
+ what the final rendered output will be. Angular has a few built-in structural directives such as ngIf, ngFor, and ngSwitch.
+ 
+ *ngIf="exists"
+ *ngFor="let episode of episodes" 
+ <div [ngSwitch]="tab">
+      <app-tab-content *ngSwitchCase="1">Tab content 1</app-tab-content>
+      <app-tab-content *ngSwitchCase="2">Tab content 2</app-tab-content>
+      <app-tab-content *ngSwitchCase="3"><app-tab-3></app-tab-3></app-tab-content>
+      <app-tab-content *ngSwitchDefault>Select a tab</app-tab-content>
+    </div>
+	  
+2. NgClass Directive
+----------------------------
+[ngClass]="['warning', 'big']
+ngClass="centered-text underlined"
+[ngClass]="{ card: true, dark: false, flat: flat }"
+
+Accessing Child Component Classes
+============================
+@ViewChild and @ViewChildren
+The @ViewChild and @ViewChildren decorators provide access to the class of child component from the containing component.
+
+@ViewChild(AlertComponent) alert: AlertComponent;
+
+ @ViewChildren(AlertComponent) alerts: QueryList<AlertComponent>;
+ 
+ @ContentChild and @ContentChildren work the same way as the equivalent @ViewChild and @ViewChildren, however, the key difference is that @ContentChild and @ContentChildren select from the projected content within the component.
+ 
+View Encapsulation
+--------------------------
+View encapsulation defines whether the template and styles defined within the component can affect the whole application or vice versa. Angular provides three encapsulation strategies:
+
+ElementRef
+---------------------
+Provides access to the underlying native element (DOM element).
+
+
+Access the DOM element 
+----------------------------------
+<input type="text" #copypastetextbox id="copypastetextbox" ./>
+@ViewChild('copypastetextbox') copyPasteText: ElementRef; 
+
+Catching Rejections
+--------------------------
+To catch rejections we use the subscriber's error and complete callbacks.
+
+Cancel a Request
+================
+unsubscribe();
+
+Retry
+-----------
+There are times when you might want to retry a failed request. For example, if the the user is offline you might want to retry a few times or indefinitely.
+
+Custom Attribute Directive
+------------------------------------
+@Directive({
+  selector: `[appConfirm]`
+})
+export class ConfirmDirective {
+  @HostListener('click', ['$event'])
+  confirmFirst(event: Event, private el : ElementRef,private render : Renderer) {
+  el.nativeElement.style.backgroundColor = "gray";
+  render.setElementStyle("display","none");
+  
+    return window.confirm('Are you sure you want to do this?');
+  }
+
+}
+
+How to use Dependency Injection (DI) correctly in Angular 2?
+--------------------------------------------------------------------------------
+The basics Steps of Dependency injection,
+1.      A class with @Injectable() to tell angular 2 that it’s to be injected “UserService”.
+2.      A class with a constructor that accepts a type to be injected.
+
+Bootstrap
+--------------
+bootstrap() takes care of creating a root injector for our application when it’s bootstrapped.
+
+A way to initialize and launch an app or system.
+
+In Angular, an app's root NgModule (AppModule) has a bootstrap property that identifies the app's top-level components.
+During the bootstrap process, Angular creates and inserts these components into the index.html host web page. 
+
+
+@HostListener, @injectable, @inject, @input, @output
+------------------------------------------------------------------------
+@HostListener('mouseover') onHover() {
+  window.alert("hover");
+}
+In Angular, the @HostListener() function decorator allows you to handle events of the host element in the directive class.
+
+@HostBining()
+-------------------
+As well as listening to output events from the host element a directive can also bind to input properties in the host element with @HostBinding.
+
+ @input, @output
+ ------------------------
+ @Input
+ ----------------
+@Input decorator binds a property within one component (child component) to receive a value from another component (parent component). This is one way communication from parent to child. The component property should be annotated with @Input decorator to act as input property. A component can receive a value from another component using component property binding. Now we will see how to use @Input. It can be annotated at any type of property such as number, string, array or user defined class. To use alias for the binding property name we need to assign an alias name as @Input(alias). 
+Find the use of @Input with string data type.
+
+ @Output
+ ---------------------
+@Output decorator binds a property of a component to send data from one component (child component) to calling component (parent component). This is one way communication from child to parent component. @Output binds a property of the type of angular EventEmitter class. This property name becomes custom event name for calling component. @Output decorator can also alias the property name as @Output(alias) and now this alias name will be used in custom event binding in calling component. 
+Find the @Output decorator using aliasing.
+@Output('addStudentEvent') 
+addStdEvent = new EventEmitter<Student>(); 
+ 
+ 
+ @NgModule
+ ---------------
+ An NgModule is a class marked by the @NgModule decorator. @NgModule takes a metadata object that describes how to compile a component's template and 
+how to create an injector at runtime. It identifies the module's own components, directives, and pipes, making some of them public, through the exports property, 
+so that external components can use them. @NgModule can also add service providers to the application dependency injectors.
+ 
+ 
+
+Difference between Angular 2 and Angular 4
+----------------------------------------------------------------------
+We know that Angular 2 is completely rewritten from scratch, there is no match between AngularJS and Angular 2. From the developer standpoint, Angular 2 is a complete rewrite from AngularJS and moving from AngularJS to Angular 2 is a complete change. From the developer standpoint, it is learning two different frameworks.
+
+The Angular 2 is released in the year of 2016 whereas Angular 4 is released in the year 2017.
+
+Changing from Angular 2 to Angular 4 and even future versions of Angular won't be like changing from AngularJS and it won't be like a complete rewrite. 
+It will simply be a change in core libraries.
+
+Angular 2and Angular 4 will use the same concept and patterns. Angular 4 simply is the next version of Angular 2.
+
+If you know Angular 2 already then it is not a big deal to learn Angular 4 because the underline concepts are still the same.
+
+Angular 4 is an inheritance from Angular 2. Angular 4 is simply is the next version of Angular 2with few changes and enhancements.
+
+In Angular 4, a lot of improvements made to reduce the size of the AOT (Ahead-of-time) compiler generated code.
+
+In Angular 2 only TypeScript 1.8 version was supported, whereas, in Angular 4, it supports TypeScript 2.1 and TypeScript 2.2 compatibility, 
+which means now we can use all new features supported in TypeScript 2.1 and TypeScript 2.2 can be used in Angular 4 application.
+
+The Animation features are separated from @angular/core package and moved them to new packages. By this way, if we don't import animation packages into your 
+application then the main bundle size will be reduced and gives the performance improvement. As I told you @angular/core package and moved them to new packages, 
+so if you are using these packages in your Angular 2 application then at the time of moving from Angular 2 to Angular 4, we need to change the package reference as well.
+
+In Angular 4, else block newly introduced. I mean, along with *ngif, we can use else block as well. Sample code as below:
+In Angular 2 we were writing like,
+
+<div *ngIf="yourCondition">  
+    <h2>Condition true!</h2>  
+</div>  
+<div *ngIf="!yourCondition">  
+    <h2>Condition false!</h2>  
+</div>  
+Now you can rewrite the same in Angular 4,
+<div *ngIf="yourCondition; else myFalsyTemplate">  
+    <h2>Condition true!</h2>  
+</div>  
+<ng-template #myFalsyTemplate>  
+    <h2>Condition false!</h2>  
+</ng-template>  
+
+Callbacks
+-----------------
+One way to program asynchronously is to use callbacks. We pass to an asynchronous function a function which it will call when the task is completed.
+
+Chaining
+------------------
+We can also connect a series of then handlers together in a chain.
+
+Map
+--------
+Map is a new data structure introduced in ES6 which lets you map keys to values without the drawbacks of using Objects.
+
+Diff b/w Map and Filter 
+-------------------------------
+
+Inherited Objects
+-----------------------------
+let base = {a:1,b:2};
+//let obj = Object.create(base);
+//obj.c = 3;
+for (let prop in base){
+console.log(prop);
+} 
+
+
+Decorator  in angular 2
+--------------------------------
+ In a simple terms, decorators allows you to attach meta data with the type script class using which angular knows whether that class is a component or directive 
+or module or etc.
+ 
+ class + decorator = component;
+ 
+ A decorator is a function that adds metadata to a class,its members, or its method arguments.
+
+Normally prefixed with an ‘@'
+
+Custom Pipes
+-------------------
+			
+import {pipe,pipeTransform} from "@angular /core";
+
+@pipe({
+	name : "capitalize"
+})
+export class capitalize implements pipeTransform{
+	transform(val : string , arg : []){
+		retrun 	val.uppercase();
+	}	
+}
+
+
+What is new in Angular 5?
+-----------------------------------
+The Angular 5 is released on 1st November 2017.
+
+Build optimizer
+It helps to removed unnecessary code from your application.
+
+Angular Universal State Transfer API and DOM Support
+By using this feature, we can now share the state of the application between the server side and client side very easily.
+Compiler Improvements
+This is one of the very nice features of Angular 5, which improved the support of incremental compilation of an application.
+
+Preserve Whitespace
+In earlier versions of Angular, unnecessary new lines, tabs and white spaces were created during the build. Now, in Angular 5, the decision is in your hands whether you need them or not. Angular 5 supports to restrict them (newlines, tabs, and white spaces) in both, the application level or you can restrict them individual component level where you wish to restrict.
+If you want to restrict them only for TestComponent  then below is the sample code,
+
+@Component({  
+            templateUrl: 'test.component.html',  
+            preserveWhitespaces: false  
+        }  
+        export class TestComponent {}  
+If you want to restrict them throughout the application level then we have add the below lines of code in tsconfig.json file.
+"angularCompilerOptions": {  
+    "preserveWhitespaces": false  
+}  
+Increased the standardization across all browsers
+In earlier versions of Angular, we were depending on i18n whenever we wanted to support internationalization in our application.  In Angular 5 now no need to depend on i18n, it provides a new date, number, and currency pipes which increases the internationalization across all the browsers and eliminates the need of i18n polyfills.
+exportAs
+============
+In Angular 5, multiple names support for both directives and components
+HttpClient
+=========
+Before Angular 4.3 versions, we were using @angular/HTTP module for all kinds of HTTP requests. Now, in Angular 5, 
+@angular/http module has been deprecated and introduced new module called HttpClientModule which comes under @angular/common/http package.
+Improved Decorator Support
+In Angular 5, we can use lambda expressions instead of naming functions. Sample code snippet as below,
+Before,
+
+Component({  
+    provider: [{  
+        provide: 'my-service',  
+        useValue: testMethod()  
+    }]  
+})  
+export class CustomClass {}  
+Now in Angular 5,
+Component({  
+            provider: [{  
+                provide: ''  
+                my - service ', useFactory: () => null}]  
+            })  
+            export class CustomClass {}  
+Few new Router Lifecycle Events being added in Angular 5
+In Angular 5 few new life cycle events being added to the router and those are ActivationStart, ActivationEnd,  ChildActivationStart, ChildActivationEnd, GuardsCheckStart, GuardsCheckEnd, ResolveStart and ResolveEnd.
+Angular 5 supports TypeScript 2.3 version.
+
+Improved in faster Compiler support
+A huge improvement made in an Angular compiler to make the development build faster. We can now take advantage of by running the below command in our development terminal window to make the build faster.
+
+ng serve/s --aot
+
+angular 5 lifecycle
+-------------------------------
+https://codecraft.tv/courses/angular/components/lifecycle-hooks/
+constructor
+====================
+This is invoked when Angular creates a component or directive by calling new on the class.
+
+ngOnChanges
+====================
+Invoked every time there is a change in one of th input properties of the component.
+
+ngOnInit
+====================
+Invoked when given component has been initialized.
+This hook is only called once after the first ngOnChanges
+
+ngDoCheck
+====================
+Invoked when the change detector of the given component is invoked. It allows us to implement our own change detection algorithm for the given component.
+
+Important
+ngDoCheck and ngOnChanges should not be implemented together on the same component.
+Note
+We will cover this hook in more detail in the Advanced Components section at the end of this course.
+ngOnDestroy
+====================
+This method will be invoked just before Angular destroys the component.
+Use this hook to unsubscribe observables and detach event handlers to avoid memory leaks.
+
+ngAfterContentInit
+====================
+Invoked after Angular performs any content projection into the components view (see the previous lecture on Content Projection for more info).
+
+ngAfterContentChecked
+====================
+Invoked each time the content of the given component has been checked by the change detection mechanism of Angular.
+
+ngAfterViewInit
+====================
+Invoked when the component’s view has been fully initialized.
+
+ngAfterViewChecked
+====================
+Invoked each time the view of the given component has been checked by the change detection mechanism of Angular.
+
+
+HostListener & HostBinding
+---------------------------------------
+HostListener - Declares a host listener.Angular will invoke the decorated method when the host element emits the specified event. 
+# HostListener - will listen to the event emitted by host element, declared with @HostListener.
+
+HostBinding
+-----------------
+HostBinding -Declares a host property binding.Angular automatically checks host property bindings during change detection. 
+If a binding changes, it will update the host element of the directive. 
+
+# HostBinding - will bind property to host element, If a binding changes, HostBinding will update the host element.
+
+By using the @HostListener and @HostBinding decorators we can both listen to output events from our host element and also bind to input properties on our host element as well.
+
+Template
+===========
+<!-- attention, we have the c_highlight class -->
+<!-- c_highlight is the selector property value of the directive -->
+
+<p class="c_highlight">
+    Some text.
+</p>
+
+And our directive
+===========
+import {Component,HostListener,Directive,HostBinding} from '@angular/core';
+
+@Directive({
+    // this directive will work only if the DOM el has the c_highlight class
+    selector: '.c_highlight'
+ })
+export class HostDirective {
+
+  // we could pass lots of thing to the HostBinding function. 
+  // like class.valid or attr.required etc.
+
+  @HostBinding('style.backgroundColor') c_colorrr = "red"; 
+
+  @HostListener('mouseenter') c_onEnterrr() {
+   this.c_colorrr= "blue" ;
+  }
+
+  @HostListener('mouseleave') c_onLeaveee() {
+   this.c_colorrr = "yellow" ;
+  } 
+}
+
+Angular 5 - What is New?
+======================
+Typescript Version Updated - V2.4
+RXJS was updated - V5.5
+Angular CLI - V1.5
+CLI for Making Bundles Smaller
+removes decorators run time
+faster rendering,fewer asynchronous requests.
+exportAs
+
+
+
+Components
+============
+To register a component we use @Component meta-data annotation.
+Component is a directive which uses shadow DOM to create encapsulated visual behavior called components.
+Components are typically used to create UI widgets.
+Component is used to break up the application into smaller components.
+Only one component can be present per DOM element.
+@View decorator or templateurl template are mandatory in the component.
+
+Directive
+============
+To register directives we use @Directive meta-data annotation.
+Directive is used to add behavior to an existing DOM element.
+Directive is use to design re-usable components.
+Many directives can be used per DOM element.
+Directive doesn't use View.
+
+
+Directive
+=========
+@Directive({ 
+  selector?: string
+  inputs?: string[]
+  outputs?: string[]
+  host?: {...}
+  providers?: Provider[]
+  exportAs?: string
+  queries?: {...}
+})
+
+Metadata Properties:
+-------------------------------
+exportAs - name under which the component instance is exported in a template. Can be given a single name or a comma-delimited list of names.
+
+exportAs
+-------------
+Which is used to access the template reference, both child and parent component.
+The exportAs takes the name under which the component instance is exported in a template.
+
+
+host - map of class property to host element bindings for events, properties and attributes
+inputs - list of class property names to data-bind as component inputs
+ex: 
+---
+inputs: ['bankName', 'id: account-id'],
+
+outputs - list of class property names that expose output events that others can subscribe to
+
+ex:
+----
+
+providers - list of providers available to this component and its children
+queries - configure queries that can be injected into the component
+selector - css selector that identifies this component in a template
+
+
+
+
+Angular 5 Key Features 
+---------------------------------------
+HttpClient
+---------------------------------------
+In version 4.3 was launched HttpClientwithin @angular/common as a smaller, simpler and more powerful way to make web requests in Angular. From this new version, Google recommends using it HttpClient for all applications, and stop using the "traditional" library @angular/HTTP that is marked as obsolete.
+
+Multiple Export Alias
+---------------------------------------
+Now we can provide multiple names to your components and directives in Angular 5 while exporting. Exporting a component with multiple names can help your users migrate without breaking changes.
+
+Internationalized Number, Date, and Currency Pipes
+--------------------------------------------------------------------------
+Angular 5 has introduced new pipes for numbers, dates and currencies that increase the standardization of the process of internationalization between browsers and eliminate the need to use polyfills to achieve it.
+
+ <p>{{ 1234.56 | currency:'CAD':'code'}}</p>
+ <p ngNonBindable>{{ dateVal | date: 'd/M/y' }}</p>
+
+
+Improved Decorator Support
+---------------------------------------
+Angular 5 now supports expression lowering in decorators for lambdas, and the value of useValue, useFactory, and data in object literals. Furthermore, a lambda can be used instead of a named function like so:
+
+
+Compoents
+Build Optimization
+---------------------------------------
+The build optimizer removes Angular decorators from your app's runtime codes thereby reducing the size of your bundle and increasing the boot speed of your application. This action leads to a decreased bundle size and faster application speed.
+
+Check out detail blog post on What's New Introduced In Angular 5
+
+Let's see the important Angular 6 features.
+------------------------------------------------------------------------------
+
+Angular Elements
+---------------------------------------
+Angular is a perfect choice for developing Single-Page Applications, creating a widget that can be added to any existing web page was not a simple task. The Angular Elements package will allow you to create an Angular component and publish it as a Web Component, which can be used in any HTML page.
+Say there is an existing non-SPA app built using JavaScript and jQuery. The developers of this app will be able to use Web Components built in Angular in the pages of such an app. This killer feature will help the enterprise to switch to the Angular framework for web application development.
+
+Ivy Renderer
+---------------------------------------
+Ivy is a Angular renderer focused on further speed improvements, size reduction, and increased flexibility by making the size of the app
+smaller and the compilation faster.
+The Angular Team promises that switching to Ivy rendered will be smooth. 
+This important feature will reduce the code size by gzipped the code which will make compilation faster. 
+
+Closure Compiler
+---------------------------------------
+Closure Compiler is the bundling optimizer used to create JavaScript modules for almost all Google web applications. The Closure Compiler consistently generates smaller bundles and does a better job in dead code elimination compared to Webpack and Rollup bundlers. In the upcoming releases of the Angular framework, you’ll be able to use this toolchain for building your apps as well.
+
+Bazel Compiler
+---------------------------------------
+Bazel only rebuilds what is necessary, it is used almost for all software built at Google, including their 500+ apps developed in Angular. Since source code changes often, it doesn’t make sense to rebuild the entire application for every little change. Instead, we should only rebuild code that actually changed, and code that depends on the changes, With advanced local and distributed caching, optimized dependency analysis and parallel execution, you get fast and incremental builds. So we can assume that this would be the important feature of the incremental build to most of the AngularJS Development Company
+
+Component Dev Kit (CDK)
+---------------------------------------
+The Angular Material library uses component dev kit, which provides more than 30+ UI components. CDK allow us to build our own library of UI components using Angular Material. It also supports Responsive Web Design layouts eliminating the need for using libraries like Flex Layout or learning CSS Grid. CDK was released in December of 2017, but the Angular Team keeps improving it.
+
+Service Worker
+---------------------------------------
+It is a script that runs in the web browser and manages to cache for an application. Service worker is included in angular 5. In angular 6 service worker comes 
+with bug fixes and additional feature.
+
+Schematics and Ng update.
+---------------------------------------
+Angular CLI generates Angular artifacts using the technology called Schematics. If you decide to create your own templates and have Angular CLI explore it, 
+Schematics will help you with this. Staring from Angular CLI 1.7, you can use the ng update that automatically updates your project dependencies and makes automated 
+version fixes. With Schematics, you’ll be able to create your own code transformations like ng update.
+
+Router
+---------------------------------------
+Added navigationSource and restoredState to NavigationStart , NavigationStart there is no way to know if navigation was triggered imperatively or via the location 
+change. These two use cases should be handled differently for a variety of use cases (e.g., scroll position restoration). This PR adds a navigation source field and
+restored navigation id (passed to navigations triggered by a URL change).
+
+Language Service
+---------------------------------------
+The 2.6 version of Typescript’s “resolveModuleName” started to require paths passed to be separated by '/' instead of being able to handle '\'.
+
+
+Tree shaking
+--------------------
+The other concept that laid the foundation for Ivy is tree shaking. It simply means that unused code is not included in a bundle during the build process. Probably, we are all familiar with tree shaking when it comes to our application code. But Angular developers went further and wondered if some of the framework could be tree shaken. For example, if you don’t use view queries, you don’t need to ship the Angular code that updates these queries to a browser. Don’t need content projection? No problem, it won’t be included in a bundle as well. In fact, that’s where the significant bundle size reduction comes from. You no longer ship the entire framework code, you only bundle pieces of the framework functionality that you use! And certainly smaller bundles have a lot of benefits, for example faster startup time.
+
+It all becomes possible due to the new instruction based approach used inside a compiled version of a component. And besides making bundles smaller, this approach also brings other benefits like simplified debugging.
+
+COMPILING VS TRANSPILING
+------------------------------------------
+https://www.stevefenton.co.uk/2012/11/compiling-vs-transpiling/
+
+Despite the fact that the term “transpiling” has been around since last century, there appears to be a fair bit of confusion about what it means and what the difference between transpiling and compiling is.
+
+Firstly, transpiling is a specific kind of compiling. This helps a great deal as we now know we are talking about the same kind of thing. It is actually a specific kind of compiling. So how do we define it compared to the more general term?
+
+Compiling
+is the general term for taking source code written in one language and transforming into another Transpilingis a specific term for taking source code written in one 
+language and transforming into another language that has a similar level of abstraction So (simplistically) when you compile C#, your method bodies are transformed 
+by the compiler into IL. This cannot be called transpiling because the two languages are very different levels of abstraction.
+
+When you compile TypeScript, it is transformed by the compiler into JavaScript. These are very similar levels of abstraction, so you could call this transpiling.
+
+Both compilers and transpilers can optimise the code as part of the process.
+
+Other common combinations that can be dubbed as transpiling include C++ to C, CoffeeScript to JavaScript, Dart to JavaScript and PHP to C++.
+
+
+Benefits of TypeScript
+-----------------------------------
+TypeScript is a superset of JavaScript that gives you advantages like:
+
+Optional static typing (the key here is optional)
+Type Inference, which gives some of the benefits of types, without actually using them
+Access to ES6 and ES7 features, before they become supported by major browsers
+The ability to compile down to a version of JavaScript that runs on all browsers
+Great tooling support with IntelliSense
+
+Intellisense
+==========
+One of the biggest advantages of TypeScript is its code completion and IntelliSense. 
+Intellisense provides active hints as code is added. 
+Since Ionic itself is written in TypeScript as well, editors can present all the methods available and what they expect as arguments. 
+All the best IDE’s available today have support for code completion, including VScode, Atom, WebStorm, Sublime text, and even command line editors, such as Vim/Neovim!
+
+TypeScript’s many benefits provide a much better app development experience. Because of this, Ionic is going “all in” on TypeScript, rather than providing ES6 starters.
+
+
+TypeScript’s main benefits:
+----------------------------------------
+Class and Module Support
+Static Type-checking
+ES6 Feature Support
+Clear Library API Definition
+Build-in Support for JavaScript Packaging
+Syntax Similarity to Our Backend Languages (Java, Scala)
+Superset of JavaScript
+
+
+Build-in Support for JavaScript Packaging
+-------------------------------------------------------
+You can define one main entry ts file and refer all the ts files you need in the output js file.
+
+Compiling the main entry ts file with the –out option, the compiler will concatenate all the directly or indirectly referred ts files into one js file in the order they are referred.
+
+Thus, we can easily tailor our library into multiple versions.
+For example, with the same code base, we are able to generate specific versions of browser agents for desktop and mobile respectively.
+We just need to create one entry file for each version with different ts files referred in it.
+
+Abstract Class
+-------------------
+Abstract classes are classes that contain one or more abstract methods. An abstract method is a method that is declared, but contains no implementation. 
+Abstract classes may not be instantiated, and require subclasses to provide implementations for the abstract methods.
+
+What's the difference between 'extends' and 'implements' in TypeScript
+--------------------------------------------------------------------------------------------
+if you extend an abstract class, you have to call super() in the subclass's constructor. 
+If you implement the abstract class, you don't have to call super() 
+(but you have to implement all the methods declared in the abstract class, including private methods).
+
+Implementing an abstract class instead of extending it could be useful if you want to create a mock class for testing without having to worry about the original class's dependencies and constructor.
+ 
+ 
+extends means:
+The new class is a child. It gets benefits coming with inheritance. It has all properties, methods as its parent. It can override some of these and implement new, but the parent stuff is already included.
+
+implements  means:
+The new class can be treated as the same "shape", while it is not a child. It could be passed to any method where the Person is required, regardless of having different parent than Person
+
+extends to profit from inheritance (see wiki). Small cite:
+
+... Inheritance in most class-based object-oriented languages is a mechanism in which one object acquires all the properties and behaviours of the parent object. Inheritance allows programmers to: create classes that are built upon existing classes ...
+
+implements will be more for polymorphism (see wiki). Small cite:
+
+... polymorphism is the provision of a single interface to entities of different types...
+
+
+Note: 
+-----------
+The implements keyword treats the A class as an interface, that means C has to implement all the methods defined in A, no matter if they have an implementation or not in A. Also there are no calls to super methods in C.
+
+extends behaves more like what you'd expect from the keyword. You have to implement only the abstract methods, and super calls are available/generated.
+
+I guess that in the case of abstract methods it does not make a difference. But you rarely have a class with only abstract methods, if you do it would be much better to just transform it to an interface.
+
+ if you extend an abstract class, you have to call super() in the subclass's constructor. If you implement the abstract class, you don't have to call super() (but you have to implement all the methods declared in the abstract class, including private methods).
+ 
+ static typing and dynamic typing in typescript
+ --------------------------------------------------------------
+ Statically typed programming languages do type checking (the process of verifying and enforcing the constraints of types) at compile-time as opposed to run-time.
+
+Dynamically typed programming languages do type checking at run-time as opposed to Compile-time.
+
+Statically typed languages type-check at compile time and the type can NOT change. (Don't get cute with type-casting comments, a new variable/reference is created).
+
+Dynamically typed languages type-check at run-time and the type of an variable CAN be changed at run-time.
+ 
+ let vs var
+ ---------------
+ var will let you re-declare the same variable in the same scope. On the other hand, let will not:
+ var is scoped to the nearest function block and let is scoped to the nearest enclosing block. But both are global if outside any block.
+ Variables declared using var are always hoisted to the top of their scope.
+ let and const declarations are not hoisted!
+ 
+ Object.freeze() 
+ ----------------------
+ The Object.freeze() method freezes an object: that is, prevents new properties from being added to it; prevents existing properties from being removed; and prevents existing properties, or their enumerability, configurability, or writability, from being changed, it also prevents the prototype from being changed. The method returns the passed object.
+ ex:
+ -----
+ const object1 = {
+  property1: 42
+};
+
+const object2 = Object.freeze(object1);
+
+object2.property1 = 33;
+// Throws an error in strict mode
+
+console.log(object2.property1);
+// expected output: 42
+ 
+ Enum
+ ---------
+You can create your own data types with a fixed set of values. To create your own data type, use the keyword enum.
+
+enum Month {Jan, Feb, Mar, Apr};
+let january : Month = Month.Jan;
+ 
+ Void
+---------
+It is the type for the result of a function that returns normally, but does not provide a result value to its caller.
+
+function alertUser() : void {
+ alert ('example of void');
+}
+
+forEach and Filter
+-------------------------
+forEach
+------------
+its kind of loop.won't return anything.
+
+Filter
+---------
+it's return the new array based on user iput.
+
+what is foreach and filter
+------------------------------------
+The main difference between forEach and filter is that forEach just loop over the array and executes the callback but filter executes the callback and check its return value.
+
+Map 
+---------
+Map like filter & foreach takes a callback and run it against every element on the array but whats makes it unique is it generate a new array based on your existing array.
+
+reduce
+--------------
+So that is how reduce works it reduces the array into one single value and returns it upon completion.
+
+What is Box Model
+------------------------
+The CSS box model is essentially a box that wraps around every HTML element. It consists of: margins, borders, padding, and the actual content. The image below illustrates the box model:
+
+Content - The content of the box, where text and images appear
+Padding - Clears an area around the content. The padding is transparent
+Border - A border that goes around the padding and content
+Margin - Clears an area outside the border. The margin is transparent
+
+div {
+    width: 300px;
+    border: 25px solid green;
+    padding: 25px;
+    margin: 25px;
+
+}
+
+spread operator
+------------------------
+What does it do? The spread operator allows an expression to be expanded in places where multiple elements/variables/arguments are expected.
+
+ex:
+----
+Normal Approach
+-----------------------
+var middle = [3, 4];
+var arr = [1, 2, middle, 5, 6];
+console.log(arr);
+// [1, 2, [3, 4], 5, 6]
+Spread Operator
+----------------------
+var middle = [3, 4];
+var arr = [1, 2, ...middle, 5, 6];
+console.log(arr);
+// [1, 2, 3, 4, 5, 6]
+
+What is subscribe?
+--------------------------
+.subscribe is not a Angular2 thing.
+
+That's a method that comes from rxjs library which Angular is using behind the scene.
+
+What are Observables?
+------------------------------------
+Observables help you manage asynchronous data, such as data coming from a backend service. 
+
+Promises vs. Observables
+--------------------------------------
+Promises are only asynchronous where Observables are either synchronous or asynchronous.
+
+promise can emit single value, but oberservable can emit multiple values.
+if subscribe is not apply in http the api will not call, in promise will call.
+oberservable have multiple properties filter,map,reduce,retry, retryWhen
+observable needs to unsubscribe, promises not.
+
+if we use asyncPipe means no need to use unsubscribe in ngDestroy method.
+
+ this.counter.pipe(takeUntil(this.unsubscribe)).subscribe(
+      (value) => this.count = value,
+      (error) => console.error(error),
+      () => console.log('[takeUntil] complete')
+    );
+
+What is a Function Declaration?
+--------------------------------------------
+A Function Declaration defines a named function variable without requiring variable assignment. Function Declarations occur as standalone constructs and cannot be nested within non-function blocks. It’s helpful to think of them as siblings of Variable Declarations. Just as Variable Declarations must start with “var”, Function Declarations must begin with “function”.
+
+function test(){
+	alert("hi");
+}
+
+What is a Function Expression?
+------------------------------------------
+A Function Expression defines a function as a part of a larger expression syntax (typically a variable assignment ). Functions defined via Functions Expressions can be named or anonymous. Function Expressions must not start with “function” (hence the parentheses around the self invoking example below)
+
+var tests = function test(){
+	alert("hi");
+}
+
+
+
+Pass by Value:
+------------------------
+In Pass by Value, Function is called by directly passing the value of the variable as the argument. Changing the argument inside the function doesn’t affect the variable passed from outside the function.
+
+Pass by Reference:
+---------------------------
+In Pass by Reference, Function is called by directly passing the reference/address of the variable as the argument. Changing the argument inside the function affect the variable passed from outside the function. In Javascript objects and arrays follows pass by reference.
+
+function callByReference(varObj) { 
+  console.log("Inside Call by Reference Method"); 
+  varObj.a = 100; 
+  console.log(varObj); 
+} 
+let varObj = {a:1};
+console.log("Before Call by Reference Method"); 
+console.log(varObj);
+callByReference(varObj) 
+console.log("After Call by Reference Method"); 
+console.log(varObj);
+
+output will be : 
+--------------- ----
+Before Call by Reference Method 
+{a: 1} 
+Inside Call by Reference Method 
+{a: 100} 
+After Call by Reference Method 
+{a: 100}
+so if we are passing object or array as an argument to the method, then there is a possibility that value of the object can change.
+
+If you enjoyed this article, Please share it with your developer friends and in social media.
+
+What is Polymorphism?
+-------------------------------
+The ability to call the same method on different objects and have each of them respond in their own way is called polymorphism.
+In OOP, we think of objects that are linked through inheritance has the same methods (override methods) and that the method being called up, is the method associated with the object and not the type of referance.
+This should not be a problem in Java Script as references (variables) in JavaScript is not type-set. We can assign any type of data to a variable in Javascript, and Javascript will know the object a variable refer to if it exists.
+
+what is inheritance?
+---------------------------
+Inheritance - In Java, inheritance is used when a class wants to inherit the features of another existing class. The class that wants to use the feature of another class, is called subclass, whereas the class whose features are to be used is referred to as superclass.
+
+
+Ex: Inheritance
+--------------------
+function person(name) {
+	this.name = name;
+} 
+person.prototype.SayName = function () {
+	alert("I am " + this.name);
+} 
+function student(name) {
+	this.name = name;
+} 
+//Inherit the property of parent class
+student.prototype = person.prototype;
+var s = new student('Sourav Kayal');
+s.SayName(); 
+
+Polymorphism − the capability to write one function or method that works in a variety of different ways.
+
+Mixins vs Inheritance
+---------------------------
+Mixin – is a generic object-oriented programming term: a class that contains methods for other classes. Some other languages like e.g. python allow to create mixins using multiple inheritance. JavaScript does not support multiple inheritance, but mixins can be implemented by copying them into the prototype.
+
+
+Mixins
+------------
+In JavaScript we can only inherit from a single object. There can be only one [[Prototype]] for an object. And a class may extend only one other class.
+
+But sometimes that feels limiting. For instance, I have a class StreetSweeper and a class Bicycle, and want to make a StreetSweepingBicycle.
+
+Or, talking about programming, we have a class Renderer that implements templating and a class EventEmitter that implements event handling, and want to merge these functionalities together with a class Page, to make a page that can use templates and emit events.
+
+There’s a concept that can help here, called “mixins”.
+
+A mixin example
+----------------------
+The simplest way to make a mixin in JavaScript is to make an object with useful methods, so that we can easily merge them into a prototype of any class.
+
+For instance here the mixin sayHiMixin is used to add some “speech” for User:
+ 
+// mixin
+let sayHiMixin = {
+  sayHi() {
+    alert(`Hello ${this.name}`);
+  },
+  sayBye() {
+    alert(`Bye ${this.name}`);
+  }
+};
+
+// usage:
+class User {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+// copy the methods
+Object.assign(User.prototype, sayHiMixin);
+
+// now User can say hi
+new User("Dude").sayHi(); // Hello Dude!
+
+
+Polymorphism ?
+-----------------------
+polymorphism means we can override the child inherited calss properties and methods. Polymorphism can achieve by overriding.
+
+Overloading 
+------------------
+overloading is not supported in javascript. Overloading is define the same method in two or more times and its behaves diff approach.
+
+Overriding
+----------------
+overriding is there are two same defined functions, that function would executes the last defined method. its called overriding.
+
+Interface
+---------------
+its describe the object literals and contains methods and functions. But here only have declarations not definitions. The TypeScript compiler uses interfaces solely for type-checking purposes. 
+It often helps in providing a standard structure that the deriving classes would follow.
+
+1. Its doesn’t have constructor
+2. Its supports multiple inheritance
+3. its doesn’t have access modifier, here everything is public.
+
+Abstract class
+---------------------
+its have declarations and defnitions of properties and methods.
+
+1.its have constructor
+2. doesn’t support multiple inheritance.
+3. its have access modifier
+
+Encapsulation
+---------------------
+Encapsulation: A Class defines only the characteristics of the Object, a method defines only how the method executes.
+its like a class, its contains properties and methods. it encapsulate properties and methods.
+
+ex:
+-----
+function test(){
+
+	this.name = 1;
+	this.getName = function(){
+		return this.name;
+	}
+
+}
+
+Namespace
+-------------------
+
+XMLHttpRequest ?
+-----------------------------
+The XMLHttpRequest Object
+All modern browsers support the XMLHttpRequest object.
+
+The XMLHttpRequest object can be used to exchange data with a web server behind the scenes. This means that it is possible to update parts of a web page, without reloading the whole page.
+
+Ex:
+-----
+
+var xhr = new XMLHttpRequest();
+xhr.open('GET', "https://ipinfo.io/json", true);
+xhr.send();
+ 
+xhr.onreadystatechange = processRequest;
+(or)
+xhr.addEventListener("readystatechange", processRequest, false);
+
+xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+function processRequest(e) {
+    if (xhr.readyState == 4) {
+        // time to partay!!!
+    }
+}
+
+Javascript Promises
+------------------------------
+const promise = new Promise((resolve, reject) => {
+  const request = new XMLHttpRequest();
+
+  request.open('GET', 'https://api.icndb.com/jokes/random');
+  request.onload = () => {
+    if (request.status === 200) {
+      resolve(request.response); // we got data here, so resolve the Promise
+    } else {
+      reject(Error(request.statusText)); // status is not 200 OK, so reject
+    }
+  };
+
+  request.onerror = () => {
+    reject(Error('Error fetching data.')); // error occurred, reject the  Promise
+  };
+
+  request.send(); // send the request
+});
+
+console.log('Asynchronous request made.');
+
+promise.then((data) => {
+  console.log('Got data! Promise fulfilled.');
+  //document.body.textContent = JSON.parse(data).value.joke;
+}, (error) => {
+  console.log('Promise rejected.');
+  console.log(error.message);
+});
+
+Javascript promises
+-------------------------
+3 states to a promise:
+
+pending: awaiting promise response
+resolve : promise has successfully returned
+reject: failure occurred
+
+JavaScript Errors - Throw and Try to Catch
+------------------------------------------------------------------
+The try statement lets you test a block of code for errors.
+
+The catch statement lets you handle the error.
+
+The throw statement lets you create custom errors.
+
+The finally statement lets you execute code, after try and catch, regardless of the result.
+
+
+diff sync and async 
+---------------------------
+sync 
+----------
+when making sync api call other scripts wont execute untill that call will complete. browser will get hang. 
+Requestor blocks, held resources are “tied up”. 
+
+async
+-----------
+when making async call user doesn’t wait for this call response, browser will not get hang.  it will execute other scripts as well.
+
+
+CLI
+--------
+Command Line Interface (CLI) can be used to create our Angular JS application. 
+It also helps in creating a unit and end-to-end tests for the application.
+ 
+ Explain tsconfig.json file.
+ -----------------------------------
+ This file is used to give the options about TypeScript used for the Angular JS project.
+
+{ 
+   "compilerOptions": { 
+      "target": "es5", 
+      "module": "commonjs", 
+      "moduleResolution": "node", 
+      "sourceMap": true, 
+      "emitDecoratorMetadata": true, 
+      "experimentalDecorators": true, 
+      "lib": [ "es2015", "dom" ], 
+      "noImplicitAny": true, 
+      "suppressImplicitAnyIndexErrors": true 
+   } 
+}
+Following are some key points to note about the above code.
+
+The target for the compilation is es5 and that is because most browsers can only understand ES5 typescript.
+
+The sourceMap option is used to generate Map files, which are useful when debugging. Hence, during development it is good to keep this option as true.
+
+The "emitDecoratorMetadata": true and "experimentalDecorators": true is required for Angular JS decorators. If not in place, Angular JS application will not compile.
+
+typescript files
+---------------------
+The "build:watch": "tsc -p src/ -w" command is used to compile the typescript in the background by looking for changes in the typescript files.
+
+app.module.ts
+----------------------
+The import statement is used to import functionality from the existing modules.
+The bootstrap option tells Angular which Component to bootstrap in the application.
+
+The following code will be present in the app.module.ts file.
+
+import { NgModule }      from '@angular/core'; 
+import { BrowserModule } from '@angular/platform-browser';  
+import { AppComponent }  from './app.component';  
+
+@NgModule({ 
+   imports:      [ BrowserModule ], 
+   declarations: [ AppComponent ], 
+   bootstrap:    [ AppComponent ] 
+}) 
+export class AppModule { }
+
+7. How will you get a substring from a string?
+Ans:
+-----
+<p>The first Topic is {{appList[0] | slice:1:2}}</p>
+
+8. string to date conversion
+Ans : 
+-----
+<div> 
+   The date of this Tutorial is {{newdate | date:"MM/dd/yy"}}
+</div> 
+
+
+What is Dependency Injection? Explain with example.
+---------------------------------------------------------------------
+Dependency injection is the ability to add the functionality of components at runtime. 
+Let’s take a look at an example and the steps used to implement dependency injection.
+
+Step 1 − Create a separate class which has the injectable decorator. 
+The injectable decorator allows the functionality of this class to be injected and used in any Angular module.
+
+@Injectable() 
+   export class classname {  
+}
+Step 2 − Next in your appComponent module or the module in which you want to use the service, 
+you need to define it as a provider in the @Component decorator.
+
+@Component ({  
+   providers : [classname] 
+})
+
+
+@Inject
+-------------
+@Inject() is a manual mechanism for letting Angular know that a parameter must be injected. It can be used like so:
+import { Component, Inject } from '@angular/core';
+import { ChatWidget } from '../components/chat-widget';
+
+@Component({
+  selector: 'app-root',
+  template: `Encryption: {{ encryption }}`
+})
+export class AppComponent {
+  encryption = this.chatWidget.chatSocket.encryption;
+
+  constructor(@Inject(ChatWidget) private chatWidget) { }
+}
+
+What is singleton
+-----------------------
+Single ton means one class but injected and used in across application.  We cann't redfine again the singleton class or instance. 
+
+Explain tsconfig.json file ?
+--------------------------------
+The tsconfig.json file corresponds to the configuration of the TypeScript compiler (tsc).
+The tsconfig.json file allows you to specify the root level files and the compiler options that requires to compile a TypeScript project.
+
+
+ What is the difference between observable and promises?
+ ------------------------------------------------------------------------
+Promises:
+----------------
+return a single value
+not cancellable
+more readable code with try/catch and async/await
+Observables:
+--------------------
+work with multiple values over time
+cancellable
+support map, filter, reduce and similar operators
+use Reactive Extensions (RxJS)
+an array whose items arrive asynchronously over time
+
+What is Traceur Compiler?
+-----------------------------------
+Traceur is a compiler that takes ECMAScript Edition 6 (ES6) (including classes, generators, destructuring and much more) and compiles it down to regular Javascript (ECMAScript Edition 5 [ES5]) that runs in your browser.
+
+switch case in angular 2
+-----------------------------------
+<div [ngSwitch]="messageCount">
+     <p *ngSwitchWhen="0">You have no message</p>
+     <p *ngSwitchWhen="1">You have a message</p>
+     <p *ngSwitchDefault>You have some messages</p>
+</div>
+
+style
+--------
+[ngStyle]="{color: 'red', background-color: 'black', fontWeight: '200'}"
+
+if/else in angular 2
+----------------------------
+<div *ngIf="isValid;then content else other_content">here is ignored</div>    
+<ng-template #content>content here...</ng-template>
+<ng-template #other_content>other content here...</ng-template>
+
+
+GET or POST?
+---------------------
+GET is simpler and faster than POST, and can be used in most cases.
+
+However, always use POST requests when:
+
+A cached file is not an option (update a file or database on the server).
+Sending a large amount of data to the server (POST has no size limitations).
+Sending user input (which can contain unknown characters), POST is more robust and secure than GET.
+
+
+The "use strict" Directive
+-------------------------------------
+The "use strict" directive was new in ECMAScript version 5.
+It is not a statement, but a literal expression, ignored by earlier versions of JavaScript.
+The purpose of "use strict" is to indicate that the code should be executed in "strict mode".
+With strict mode, you can not, for example, use undeclared variables.
+
+eval()
+-----------
+The eval() function evaluates or executes an argument.
+If the argument is an expression, eval() evaluates the expression. If the argument is one or more JavaScript statements, eval() executes the statements.
+
+ JSON is Like XML Because
+ -------------------------------------
+Both JSON and XML are "self describing" (human readable)
+Both JSON and XML are hierarchical (values within values)
+Both JSON and XML can be parsed and used by lots of programming languages
+Both JSON and XML can be fetched with an XMLHttpRequest
+JSON is Unlike XML Because
+-------------------------------------
+JSON doesn't use end tag
+JSON is shorter
+JSON is quicker to read and write
+JSON can use arrays
+The biggest difference is:
+
+ XML has to be parsed with an XML parser. JSON can be parsed by a standard JavaScript function.
+
+ Why JSON is Better Than XML
+ ------------------------------------------
+XML is much more difficult to parse than JSON.
+JSON is parsed into a ready-to-use JavaScript object.
+
+For AJAX applications, JSON is faster and easier than XML:
+
+Using XML
+------------------
+Fetch an XML document
+Use the XML DOM to loop through the document
+Extract values and store in variables
+Using JSON
+------------------
+Fetch a JSON string
+JSON.Parse the JSON string
+ 
+ closure
+ -------------
+ A closure is a function having access to the parent scope, even after the parent function has closed.
+ 
+ 
+ Arguments are Passed by Value
+ ------------------------------------------
+The parameters, in a function call, are the function's arguments.
+
+JavaScript arguments are passed by value: The function only gets to know the values, not the argument's locations.
+
+If a function changes an argument's value, it does not change the parameter's original value.
+
+Changes to arguments are not visible (reflected) outside the function.
+
+Objects are Passed by Reference
+------------------------------------------
+In JavaScript, object references are values.
+
+Because of this, objects will behave like they are passed by reference:
+
+If a function changes an object property, it changes the original value.
+
+Changes to object properties are visible (reflected) outside the function.
+ 
+ 
+Ivy renderer
+ -----------------
+  This is a code name of a new renderer that will make the size of the app smaller and the compilation faster. The size of the Hello World app is only 3KB gzipped. The Angular Team promises that switching to Ivy rendered will be smooth, and I’ll take my hat off if they’ll be able to make it a non-breaking change.
+  
+  Bazel 
+  ---------
+  Bazel  is compiler to compile application.
+  
+  Bazel is a build system used for nearly all software built at Google. With this release, we will start having the Bazel compiler support. When you compile the code with Bazel Compiler, you will recompile entire code base, but it compiles only with necessary code. It uses advanced local and distributed caching, optimized dependency analysis and parallel execution
+  
+  Angular Form
+  ------------------
+  $pristine/$dirty tells you whether the user actually changed anything, while 
+  $touched/$untouched tells you whether the user has merely been there/visited.
+  
+  
+  Diff b/w ECMAScript and TypeScript
+  ------------------------------------------------
+ There is no difference in both of them. Everything you write in ES6 is supported by Typescript.
+ Typescript is an extension of ES6. Some features that are additionally included in Typescript are:
+
+1. Type Annotations 
+eg: name: String = ‘xyz’
+ number: Number = ‘123’;
+2. Interfaces
+3. Enums
+4. Mixins
+ 
+ Now your browser is not yet advanced to understand Typescript, so typescript’s compiler converts your code to plain js so that browser can understand it.
+ 
+ 
+ECMAScript
+--------------------
+ECMAScript is a Standard for a scripting languages.
+Languages like Javascript are based on the ECMAScript standard.
+ECMA Standard is based on several originating technologies, the most well known being JavaScript (Netscape) and JScript (Microsoft).
+ECMA means European Computer Manufacturer’s Association
+
+ECMA is the orgranization that standarized JavaScript. They named the language ECMAScript, however the "JavaScript" was the term that won the "name competition".
+
+forRoot()
+-------------
+ The forRoot() method returns an NgModule and its provider dependencies.
+
+@HostBinding
+----------------------
+What you can do instead is to bind to the class property directly
+@HostBinding('class') classes = 'class1 class2 class3';
+If you have a limited number of classes you can conditionally add each one:
+@HostBinding('class.c1') get c1 () { return this.useC1; } 
+@HostBinding('class.c2') get c2 () { return this.useC2; }
+
+
+Understanding @ViewChildren, @ViewChild, @ContentChildren and @ContentChild
+------------------------------------------------------------------------------------------------------------------------
+Using @ViewChildren and ContentChildren will also return a QueryList which provides an observable that you can watch for changes, so it works much more nicely in the Angular environment than using getElementById does (as tempting as that may be).
+
+When to use @ContentChildren
+==========================
+You can use @ContentChildren to grab a reference to content that has been projected into a component through the use of <ng-content>. This is a subtle but important difference. If I were to try to use @ContentChildren to grab those items in the example above, by doing this:
+
+@ContentChildren(Item) items;
+
+@ViewChild
+------------------
+Import ViewChild and AfterViewInit from @angular/core
+Implement AfterViewInit life cycle hook to component class
+Create a variable with decorator @ViewChild
+Access that inside ngAfterViewInit life cycle hook
+
+http://www.angularjspassion.in/2017/04/angular2-viewchild-viewchildren.html
+
+1. @ViewChild
+--------------------
+In angular 2 @ViewChild having very important use. For eg. Consider you  have two components parent component and child component. 
+If you want to access properties and function of child component directly then using @viewChild it is possible
+
+
+2. @ViewChildren
+---------------------------
+There is might be possibility that parent component consist of  multiple same type of child component so that time we need to access all child component properties so it is possible using @ViewChildren decorator. It collects all child components and stored into the QueryList same as Array.
+
+@ViewContentChild and @ViewContentChildren both are work like @ViewChild and @ViewChildren but both are useful for projected content 
+
+3.@ContentChild and @ContentChildren
+----------------------------------------------------
+
+@ViewContentChild and @ViewContentChildren both are work like @ViewChild and @ViewChildren but both are useful for projected content 
+
+
+The concept of a content child is similar to that of a view child but the content children of the given component are the child elements that are projected into the component from the host component.
+In our example application we are projecting one joke in from the host AppComponent.
+To get a reference to that child we can use either the @ContentChild or the @ContentChildrendecorators. They work in similar ways to the view child counterparts, @ContentChild returns one child and @ContentChildren returns a QueryList.
+
+for more reference : http://www.angularjspassion.in/2017/04/angular2-viewchild-viewchildren.html
+
+ 
+ Angular 4 & 5
+ --------------------
+ Angular 4
+ ----------------
+ 1. Faster and Compact
+ 2. Animation Support
+ 3. Typescript 2.1 & 2.2
+ 4. *ngIf & ngFor Improvements
+ 
+ Angular 5
+ ----------------
+ 1. Build Optimizer
+ 2. compiler imrovements 
+ 3. TypeScript 2.5 
+ 4. exportAs
+ 5. Improved Decorators
+ 6. New Router Lifecycles
+ 
+ What is exportAs
+ ---------------------------
+ 
+ 
+ super()
+ -------------------
+1.super() is used to call immediate parent.
+2.super() can be used with instance members i.e., instance variables and instance methods.
+3.super() can be used within constructor to call the constructor of parent class
+4. The super keyword is used to access and call functions on an object's parent.
+
+
+Electron
+------------
+Electron is a popular framework that makes it easy to build desktop apps for macOS, 
+Linux or Windows using familiar web technologies (HTML, JavaScript and CSS).
+
+Observable
+-----------------
+1. Observable.interval(100).takeWhile(()=>true/false).subscribe((response)=>{
+
+});
+
+2. 
+
+
+Encapsulation modes
+------------------------------
+By default, as we have seen, our component won't encapsulate its structure and styling. 
+This means that CSS classes from outside of the component can override and affect the embedded CSS styles that we defined, 
+and the HTML structure of the component is accessible as well.
+
+Angular will generate a unique property for our selector to protect our styling, but this can be overridden with a CSS !important statement.
+
+To change this, we need to define an encapsulation mode. Angular 2 provides us three options to choose from:
+
+Emulated
+-----------------
+Emulated (the default): Angular will add a special attribute to the class selector to avoid affecting other styles outside of the components.
+
+The style is wrapped in a style tag, pushed to head and uniquely identified so it can be matched with its component's template. With that, the styles will be used for only the template in the same component.
+
+Native
+---------
+Native: This is the native encapsulation mechanism of the renderer that will be applied. In our case, it's the browser. 
+Angular will create a shadow DOM for this component, which means that external CSS can't affect our component.
+
+None
+--------
+None: No encapsulation will be applied. It will take default or global css.
+
+Does Angular 2 use Shadow DOM or a Virtual DOM?
+------------------------------------------------------------------
+Angular2 doesn't use virtual DOM at all.
+
+No. Virtual DOM is only present in React and Vue, not in Angular 2.
+
+Angular2 doesn't use shadow DOM (default) nor virtual DOM.
+
+With encapsulation: ViewEncapsulation.Emulated (default) there is no shadow DOM because style encapsulation is only emulated.
+
+encapsulation: ViewEncapsulation.Native enables shadow DOM on browsers that support it natively or it's again emulated when the webcomponents polyfill is loaded.
+
+Shadow DOM is also not targeting performance as virtual DOM is, but style encapsulation.
+
+Angular2 doesn't use virtual DOM at all.
+
+Angular2 has change detection that detects changes to the model and only updates the parts of the DOM that need to be changed according to the model changes.
+
+
+
+
+syntax : 
+-----------
+import { Component, ViewEncapsulation } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  encapsulation: ViewEncapsulation.None,
+  template: `
+    <h1>
+      {{title}}
+    </h1>
+  `,
+  styles: [`
+    h1 { color: darkblue }
+  `]
+})
+ 
+ 
+ shadow DOM
+ -------------------
+ Shadow DOM: A set of JavaScript APIs for attaching an encapsulated "shadow" DOM tree to an element — which is rendered separately from the main document DOM — and controlling associated functionality. In this way you can keep an element's features private, so they can be scripted and styled without the fear of collision with other parts of the document.
+ 
+ Web Components
+ ------------------------
+ Web Components is a suite of different technologies allowing you to create reusable custom elements — with their functionality encapsulated away from the rest of your code — and utilize them in your web apps.
+ 
+ forRoot
+ -------------
+ The forRoot() method returns an NgModule and its provider dependencies.
+ 
+diff b/w service, factory and provider in angular js 1?
+----------------------------------------------------------------------
+Factory: The factory you actually create an object inside of the factory and return it. 
+service: The service you just have a standard function that uses the this keyword to define function. You are returning an object with methods.
+provider: The provider there’s a $get you define and it can be used to get the object that returns the data. Providers are configurable at runtime.
+
+diff b/w Module and Component?
+-----------------------------------------------
+Module in angular is set of Components, Services, Filters, or some another smaller modules too, 
+or we can say where you import all these in order to use later in the app for future use. in a single app there can be one or more than one module may exist.
+
+Whereas, Component is a single layer or view to perform some actions etc. components can be lazzy loaded as per requirements.
+
+Custom Pipes?
+================
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({ name: 'filesize' })
+export class FileSizePipe implements PipeTransform {
+  transform(size: number, extension: string = 'MB') {
+    return (size / (1024 * 1024)).toFixed(2) + extension;
+  }
+}
+
+Custom Directives?
+================
+
+import { Directive, ElementRef, Renderer } from '@angular/core';
+
+@Directive({ selector: '[myHidden]' })
+export class HiddenDirective {
+    constructor(el: ElementRef, renderer: Renderer) {
+		el.nativeElement.style.backgroundColor = 'yellow';
+       renderer.setElementStyle(el.nativeElement, 'display', 'none');
+    }
+	@HostListener('mouseleave') onMouseLeave() {
+        this.hover(false);
+    }
+	ngOnInit(){
+        // Use renderer to render the emelemt with styles
+        console.log(this.myHidden)
+        if(this.myHidden) {
+            this.renderer.setElementStyle(this.el.nativeElement, 'display', 'none');
+        }
+    }
+}
+
+
+ List some advantages of Angular 2 over Angular1.
+ ------------------------------------------------------------------
+Angular 2 
+----------------
+1. Angular 2 is a mobile-oriented framework
+2. Angular 2 is a versatile framework, i.e. we have more choices for languages. We can use ES5, ES6, Typescript or Dart to write an Angular 2 code
+3.  Its have inbuild compiler and type checking.
+4. 
+
+Angular 1
+----------------
+1. Whereas Angular1 was not developed with mobile base in mind.
+2. Whereas an Angular1 code can written by using only ES5, ES6 and Dart. We don’t have many choices of language in Angular1.
+3. Don't have type checking
+4. Don't have inbuild compiler
+5. 
+
+Guard Types
+----------------------
+CanActivate - Decides if a route can be activated --- The most typical use case for the CanActivate guard is some form of checking to see if the user has permissions to view a page.
+CanActivateChild - Decides if children routes of a route can be activated
+CanDeactivate - Decides if a route can be deactivated
+CanLoad - Decides if a module can be loaded lazily
+
+
+When will ngOnInit be called?
+===============================
+Called once, after the first ngOnChanges.
+
+How would you make use of onNgInit()?
+===============================
+Fetch initial component data (e.g. from server).
+
+What is the difference between onNgInit() and constructor() of a component?
+=========================================================
+A directive’s data-bound input properties are not set until after construction, so that’s one difference.
+
+What types of pipes are supported in Angular 2?
+===================================
+Pure and impure pipes (async pipes are a kind of impure pipe).
+
+What is the difference between RouterModule.forRoot() vs RouterModule.forChild()? Why is it important?
+===========================================================================
+forRoot is a convention for configuring app-wide Router service with routes, whereas forChild is for configuring the routes of lazy-loaded modules.
+
+How would you use a Route Guard?
+============================
+You would implement CanActivate or CanDeactivate and specify that guard class in the route path you’re guarding.
+
+What are some different types of RouteGuards?
+====================================
+CanActivate, CanDeactivate, CanLoad, Resolve, etc.
+
+How would you intercept 404 errors in Angular 2?
+======================================
+Can provide a final wildcard path like so: { path: ‘**’, component: PageNotFoundComponent }
+
+What is <router-outlet> for?
+=====================
+Specifies the place where routes are mounted in the application.
+
+What's the difference between dirty, touched, and pristine on a form element?
+===============================================================
+ Dirty means it contains user data, touched means the user has at least done something with a particular control (perhaps just literally ‘touched’ it by giving it focus?), and pristine means the control has not been touched at all by the user.
+ 
+ How can you access validation errors in the template to display error messages?
+===============================================================
+Use formErrors
+
+How do you define transition between two states?
+=====================================
+Using the transition and animate function in an animations block like so: animations: [transition('inactive => active'), animate('100 ms ease-in')]
+
+What is transition between two states
+=============================
+Declares an animation transition as a sequence of animation steps to run when a given condition is satisfied. The condition is a Boolean expression or function that compares the previous and current animation states, and returns true if this transition should occur. When the state criteria of a defined transition are met, the associated animation is triggered.
+
+What are some of the top level building blocks of the Angular framework?
+==========================================================
+Services, Templates, Modules, Components, Providers, etc.
+
+What are some security related features built in to the Angular framework?
+=======================================================
+Sanitation, to prevent cross site scripting. Built-in support in the HttpClient to prevent cross-site request forgery.
+
+How can you bypass sanitation in Angular and why would you do so?
+=======================================================
+To inject known safe code, you can bypass sanitation (e.g. to embed an iframe).
+
+What is Redux and how does it relate to an Angular app?
+===============================================
+It's a way to manage application state and improve maintainability of asynchronicity in your application by providing a single source of truth for the application state, and a unidirectional flow of data change in the application. ngrx/store is one implementation of Redux principles.
+
+Where would you configure TypeScript specific compiler options for your project?
+=========================================================
+In the tsconfig.json file.A
+
+What is the tslint.json file used for?
+=============================
+Linting the TypeScript code (making sure it conforms to certain standards / conventions).
+
+Why would you use a spy in a test?
+=============================
+To verify a particular value was returned or a method was called, for example when calling a service.
+
+Which Angular 2 directive can be used for internationalization? 
+================================================
+i18n is the Angular 2 directive that is used for internationalization i.e. conversion of static HTML text in multiple languages.
+
+What is Host Decorators in Angular 2?
+=============================
+Host decorators bind properties of component with UI element values. The properties inside component class definition decorated with @HostBinding can be accessed in template from assigned property i.e. @HostBinding() title = ‘My Title’.
+
+What Is Typescript ?
+================
+TypeScript is a typed super set of JavaScript which has been built and maintained by Microsoft and chosen by the AngularJS team for development.
+
+Diff b/w abstract class & interface
+========================
+Abstarct Class
+--------------------
+it dosn't supports multiple inheritance
+Its have constructor
+It have access modifier
+
+Abstract is object oriented. It offers the basic data an 'object' should have and/or functions it should be able to do. It is concerned with the object's basic characteristics: what it has and what it can do. Hence objects which inherit from the same abstract class share the basic characteristics (generalization).
+
+Interface
+------------
+Interface supports multiple inheritance
+Its doesn't have constructor
+It doesn’t have access modifier, everything its assumed as public.
+
+Interface is functionality oriented. It defines functionalities an object should have. Regardless what object it is, as long as it can do these functionalities, which are defined in the interface, it's fine. It ignores everything else. An object/class can contain several (groups of) functionalities; hence it is possible for a class to implement multiple interfaces.
+
+
+How to setup lazy loading
+------------------------------------
+Lazy loading is the act of only loading parts of our app when they are needed.
+
+If a user doesn't visit a section of our app, they won't ever download those resources.
+
+
+can we create more than one module in angular ?
+======================================
+Yes
+
+ What Are The Security Threats Should We Be Aware Of In Angular 2 Application?
+ ==========================================================
+ Avoid XSRF cross origin request
+ Avoid include external libraries.
+ 
+ 
+Route Guard vs Auth Guard
+---------------------------------------
+
+forRoot() and forChild()
+--------------------------------
+
+
+Reexport class
+-----------------------
+//d.ts
+export default class D{}
+
+//reexport.ts
+export { default } from "d";
+
+
+create singleton service  you should have a singleton service without depending on the hierarchical injectors.
+---------------------------------------------------------------------------------------------------------------------------------------------------
+@Component({
+  providers: [YOUR_SERVICE_PROVIDER]
+})
+
+Provider is used to import service, only for needed component. 
+
+
+What Is Shadow Dom? How Is It Helping Angular 2 To Perform Better?
+===================================================
+Shadow DOM is a part of the HTML spec which allows developers to encapsulate their HTML markup, CSS styles and JavaScript. Shadow DOM, along with a few other technologies, gives developers the ability to build their own 1st class tags, web components and APIs just like the <audio> tag. Collectively, these new tags and APIs are referred to as Web Components. Shadow DOM provides better separation of concern along with lesser conflict of styles and scripts with other HTML DOM elements.
+
+Since shadow DOM are static in nature, it’s a good candidate to be cached as it is not accessible to developer. The cached DOM would be rendered faster in the browser providing better performance. Moreover, shadow DOM can be managed comparatively well while detecting the change in angular 2 application and re-paint of view can be managed efficiently.
+ 
+ 
+ Disadvantages of AOT
+ --------------------------------
+ Needs cleanup step before compiling.
+ Need to maintain AOT version of bootstrap file (might not be required while using tools like cli).
+ Works only with HTML and CSS, other file types need a previous build step.
+ 
+ forkJoin()
+ ----------------
+ using forkJoin you can fire parallel request at time and it will till all request completed.
+ 
+ // Uses Observable.forkJoin() to run multiple concurrent http.get() requests.
+  // The entire operation will result in an error state if any single request fails.
+  getBooksAndMovies() {
+    return Observable.forkJoin(
+      this.http.get('/app/books.json').map((res:Response) => res.json()),
+      this.http.get('/app/movies.json').map((res:Response) => res.json())
+    );
+  }
+ 
+ singleton service
+ ------------------------
+ Adding @Injectable decorator to the Service, AND registering it as a provider in the Root Module will make it a singleton.
+ 
+ It's singleton, there is only one object, but is injected into many places. (objects are passed by reference to a method)
+
+All your Animal are object pointers referring to the same animal object which is a function in your case. Your Cat and Dog are objects constructed by this function.
+
+ Structural directive?
+Metadata?
+Metadata is used to decorate the class so that it can configure the expected behaviour of the class and its a way of processing the class
+change detection angular 2?
+	Change detection is the process of that allows angular to keep our view in sync with model data. Change detection strategy is responsible for reflecting changes in the components and DOM. Changes are guaranteed to propagate unidirectionally. The change detector will traverse each node only once, always starting from the root. i.e the parent component is always checked before its children components.
+
+Decorators?
+	Decorators are the function that are invoked with a prefixed @symbol and immediately there are 4 types of decorator
+	1. Class decorator : @component and @NgModule
+	2. property decorator : used inside the class @Input and @Output
+	3. Method decorator : @HostListener
+	4. Parameter decorator : @Inject @Injectable
+Routing mechanism?
+
+trackBy
+-------
+The trackBy function takes the index and the current item as arguments and returns the unique identifier by which that item should be tracked.
+
+What are the practical differences between template-driven and reactive forms?
+------------------------------------------------------------------------------
+Template Driven Forms Features
+----------------------------------
+Easy to use
+Suitable for simple scenarios and fails for complex scenarios
+Similar to AngularJS
+Two way data binding(using [(NgModel)] syntax)
+Minimal component code
+Automatic track of the form and its data(handled by Angular)
+Unit testing is another challenge
+
+Reactive Forms Features
+-------------------------
+More flexible, but needs a lot of practice
+Handles any complex scenarios
+No data binding is done (immutable data model preferred by most developers)
+More component code and less HTML markup
+Reactive transformations can be made possible such as
+Handling a event based on a debounce time
+Handling events when the components are distinct until changed
+Adding elements dynamically
+Easier unit testing
+
+https://github.com/WebPredict/angular-2-interview-questions
+
+https://www.freecodecamp.org/news/48-answers-on-stack-overflow-to-the-most-popular-angular-questions-52f9eb430ab0/#b4d0
+ 
+https://dzone.com/articles/object-oriented-javascript-objects-encapsulation-a
+https://beginnersbook.com/2013/03/oops-in-java-encapsulation-inheritance-polymorphism-abstraction/
+
+
+===============================================================================================================
+Here are Angular latest interview questions (2024–2025), grouped by beginner → advanced, 
+with a strong focus on real-world and senior-level expectations. 
+This will be especially useful for you as a Senior Front-End Developer (Angular + React).
+
+🔹 Angular Core & Basics
+
+1. What is Angular and how is it different from AngularJS?
+2. What are the main features introduced in the latest Angular versions?
+    2.1. Signals (🔥 Most Important)
+    2.2 Standalone Components (No NgModule)
+    2.3. Modern Control Flow (@if, @for, @switch)
+    2.4. Deferred Loading (@defer) => Loads parts of the UI only when needed (on scroll, idle, interaction).
+    2.5. Zoneless Change Detection (Advanced) => Angular can now work without zone.js, relying on signals and explicit triggers.
+      Why?
+      Better performance
+      Predictable updates
+      Smaller bundle size
+
+    2.6. Improved SSR & Hydration => Hydration reuses server-rendered DOM on the client instead of destroying and re-rendering it.
+    2.7. ESBuild & Faster Builds => esbuild is an extremely fast, modern JavaScript bundler and minifier for web development
+     Angular replaced Webpack with ESBuild internally.
+    2.8. Improved Router (Standalone + Lazy)
+        True component-level lazy loading
+        No modules needed
+
+3. What is standalone components in Angular?
+  A component that does not require NgModule and can be used directly.
+  Why?
+  Less boilerplate
+  Easier to maintain
+  Faster onboarding
+  Standalone components are now the recommended default for new Angular apps.
+
+4. What is the role of NgModule? Is it still required?
+  NgModule was traditionally used to organize and bootstrap Angular applications, 
+  but with the introduction of standalone components, it is no longer required for new apps. 
+  Angular now recommends a component-first architecture, while NgModule remains supported for legacy and migration use cases.
+
+5. What are signals in Angular?
+  Signals are Angular’s new reactive primitive for managing state with fine-grained reactivity.
+  They automatically track dependencies and update only what changes.
+  Why signals?
+  Better performance
+  Less boilerplate than RxJS for UI state
+  Predictable change detection
+  Signals reduce unnecessary change detection and are ideal for local UI state.
+
+6. Difference between Component and Directive?
+  A Component is a directive with a template.
+  It controls a view (UI) and is used to build screens and layouts.
+✅ Key Points
+    Always has an HTML template
+    Used to create reusable UI blocks
+    Defined using @Component
+    Can have styles, lifecycle hooks, and business logic
+
+  A Directive is used to change the behavior or appearance of an existing DOM element.It does not have its own template.
+✅ Key Points
+    No template
+    Enhances or modifies existing elements
+    Defined using @Directive
+    Commonly used for DOM manipulation
+
+7. Types of directives in Angular
+  Angular directives are of three types:
+   1.Component Directive => A component is actually a special type of directive with a template.
+   2.Structural Directives => change the structure of the DOM by adding or removing elements.(ex: *ngIf, *ngFor,*ngSwitch, ngTemplate)
+   3.Attribute Directives => change the appearance or behavior of an existing element.(ngClass, ngStyle)
+  last Custom directive 
+
+What is a Custom Structural Directive? => changes the DOM structure by adding or removing elements.
+    Angular provides:
+      TemplateRef → represents the template
+      ViewContainerRef → controls where the template is rendered
+Is Directive support Lifecycle Hooks?
+    Yes,Directives support the same lifecycle hooks as components (except template-related ones).
+      ngOnInit ->Runs once after directive initialization
+      ngOnChanges -> Runs when @Input() values change
+      ngDoCheck -> Custom change detection logic
+      ngOnDestroy -> Cleanup (unsubscribe, remove listeners)
+
+    ⚠️ Hooks NOT Available (These depend on templates, which directives don’t have)
+      ngAfterViewInit
+      ngAfterContentInit
+
+
+8. What is dependency injection (DI) in Angular?
+
+9. What is zone.js and why does Angular use it?
+
+10. What is Change Detection?
+
+🔹 Components & Templates
+
+What is OnPush change detection?
+
+How does Angular handle data binding?
+
+Difference between:
+
+@Input() vs @Output()
+
+ViewChild vs ContentChild
+
+What are template reference variables?
+
+What is ng-template, ng-container, ng-content?
+
+What are host bindings and host listeners?
+
+How do you communicate between unrelated components?
+
+🔹 Angular Signals (Latest & Trending 🔥)
+
+What are Angular signals?
+
+Signal vs Observable – when to use what?
+
+What are computed() and effect()?
+
+How do signals improve performance?
+
+Can signals replace RxJS completely?
+
+🔹 Services & Dependency Injection
+
+What are services and why are they needed?
+
+What is providedIn: 'root'?
+
+Difference between Singleton and Scoped services
+
+What are Injection Tokens?
+
+How do you share data between components using services?
+
+🔹 Routing & Navigation
+
+What is lazy loading?
+
+Difference between loadChildren and standalone route providers
+
+What are route guards?
+
+Explain:
+
+CanActivate
+
+CanDeactivate
+
+Resolve
+
+What is preloading strategy?
+
+How does Angular handle route reuse?
+
+🔹 Forms (Very Important 💡)
+
+Difference between Template-driven and Reactive forms
+
+What is FormBuilder?
+
+What are FormGroup, FormControl, FormArray?
+
+How do you create custom validators?
+
+What is async validation?
+
+How do you handle dynamic forms?
+
+How do you track form changes efficiently?
+
+🔹 RxJS & State Management
+
+What is RxJS and why is it used in Angular?
+
+Difference between:
+
+Subject vs BehaviorSubject
+
+mergeMap vs switchMap
+
+What is the async pipe?
+
+How do you prevent memory leaks?
+
+What is NgRx?
+
+Signal-based state vs NgRx – which is better?
+
+🔹 Performance Optimization (Senior-Level ⭐)
+
+How do you optimize Angular application performance?
+
+What causes unnecessary change detection cycles?
+
+How does trackBy improve performance?
+
+What is server-side rendering (Angular Universal)?
+
+What is hydration in Angular?
+
+How do you reduce bundle size?
+
+What is defer loading (@defer)?
+
+🔹 HTTP & API Handling
+
+What is HttpClient?
+
+How do HTTP interceptors work?
+
+How do you handle global error handling?
+
+What is retry, catchError, finalize?
+
+How do you cancel HTTP requests?
+
+🔹 Security
+
+What is XSS and how does Angular prevent it?
+
+What is DomSanitizer?
+
+How do you secure routes?
+
+What are CSRF tokens?
+
+🔹 Testing
+
+Difference between Jasmine and Jest
+
+What is TestBed?
+
+How do you test components with services?
+
+What is mocking?
+
+How do you test HTTP calls?
+
+What is e2e testing?
+
+🔹 Angular Architecture & Best Practices
+
+How do you structure a large Angular application?
+
+What is Smart vs Dumb components?
+
+How do you enforce coding standards?
+
+What is a shared module?
+
+How do you handle feature isolation?
+
+How do you migrate legacy Angular apps?
+
+🔹 Real-World / Scenario-Based Questions (Very Important 🔥)
+
+How would you design a reusable component library in Angular?
+
+How do you share UI components across Angular & React apps?
+
+How do you handle role-based access control?
+
+How do you manage multi-tenant applications?
+
+How do you handle large forms with validations?
+
+How do you improve initial page load time?
+
+🔹 Angular + Modern Tooling
+
+What is Vite in Angular?
+
+What is ESBuild?
+
+Difference between Webpack and ESBuild
+
+What are Angular schematics?
+
+What is Nx?
+
+🔹 Quick HR / Managerial Questions
+
+How do you keep Angular skills up to date?
+
+How do you review junior developers’ code?
+
+How do you handle production bugs?
+
+Explain a challenging Angular project you worked on
+
+Why should we hire you as a Senior Angular Developer?
