@@ -9,14 +9,16 @@ OAuth / SSO tokens
 
 Want known the Web  technology’s
 
-1. Angular 6
-2. Node js
-3. RxJS
+1. Angular 21 features
+2. Node js with express js
+3. RxJS Operators
 4. Angular build processes
 5. webpack
-6. Hybrid Mobile App{Cordova setup, }
-7. React js
-8. vue js
+6. GraphQL
+7. React
+8. Redux tool kit
+9. Next js
+
 			
 						
 
@@ -34,7 +36,7 @@ https://graphcms.com
 https://marketplace.visualstudio.com/...
 https://syntax.fm/
 
-Angular 6 yet to known topics
+Angular important topics for interview
 =================================
 => View Encapsulation
 => pipe

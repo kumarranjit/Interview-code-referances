@@ -1,0 +1,130 @@
+One liner JavaScript Questions
+------------------------------
+console.log({}+[]); // Output: "[object Object]"
+console.log({} + []); // Output: "[object Object]"
+console.log(null == undefined); // Output: true (because both null and undefined are considered equal in non-strict equality)
+console.log(null === undefined); // Output: false (because they are of different types, null is an object and undefined is a primitive)
+console.log([] + []); // Output: "" (empty string, because both arrays are converted to empty strings and concatenated)
+
+console.log(1 + +"2" + "2"); // Output: "32" (1 + 2 = 3, then 3 + "2" = "32")
+
+
+Flatten array without using built-in methods like flat()
+--------------------------------------------------------
+const numbers = [1, 2, [3, 4, 5, [6, 7, [8, 9]]]];
+
+✅ 1️⃣ Using Recursion
+const numbers = [1, 2, 1, [3, 4, 5, [6, 7, [7, 8, 9]]]];
+console.log(numbers.flat(Infinity))
+
+function flattenArr(arr){
+    let result=[];
+    for(let i=0; i<arr.length; i++){
+        if(Array.isArray(arr[i])){
+            result = result.concat( flattenArr(arr[i]));
+        } else {
+            result.push(arr[i]);
+        }
+    }
+    return result;
+}
+let flattened = flattenArr(numbers);
+console.log(flattened);
+
+3️⃣ Using Stack (Advanced – Senior Level Answer)
+function flattenArray(arr) {
+  let stack = [...arr];
+  let result = [];
+  while (stack.length) {
+    let value = stack.pop();
+    if (Array.isArray(value)) {
+      stack.push(...value);
+    } else {
+      result.unshift(value);
+    }
+  }
+  return result;
+}
+console.log(flattenArray(numbers));
+
+How count frequency of each number in the array
+-------------------------------------------------
+let a = [1, 2, 3, 2, 1, 2, 3, 1, 5, 4];
+
+✅ 1️⃣ Without Using Built-in Helpers
+let result = {};
+for (let i = 0; i < a.length; i++) {
+  let value = a[i];
+
+  if (result[value]) {
+    result[value] = result[value] + 1;
+  } else {
+    result[value] = 1;
+  }
+}
+console.log(result);
+
+✅ 2️⃣ Clean Modern Version
+let result = {};
+for (let num of a) {
+  result[num] = (result[num] || 0) + 1;
+}
+console.log(result);
+
+✅ 3️⃣ Using reduce
+let result = a.reduce((acc, curr) => {
+  acc[curr] = (acc[curr] || 0) + 1;
+  return acc;
+}, {});
+console.log(result);
+
+
+what will be the output of below code and why?
+----------------------------------------------
+console.log("A");
+
+setTimeout(() => {
+  console.log("B");
+}, 0);
+
+Promise.resolve().then(() => {
+  console.log("C");
+});
+
+console.log("D");
+
+// Output will be:
+A
+D
+C
+B
+
+Explanation:
+1. "A" is logged first because it's a synchronous operation.
+2. The setTimeout callback is scheduled to run after 0 milliseconds, 
+but it will only execute after the current call stack is empty and all microtasks (like Promises) 
+have been processed.
+3. The Promise's then callback is a microtask, so it will execute after the current synchronous code 
+finishes but before the setTimeout callback.
+4. "D" is logged next because it's the next synchronous operation.  
+5. After the synchronous code is done, the microtask queue is processed, so "C" is logged.
+6. Finally, the setTimeout callback executes, logging "B".  
+
+console.log("Start");
+setTimeout(() => {
+  console.log("Timeout");
+}, 0);
+Promise.resolve()
+  .then(() => {
+    console.log("Promise 1");
+  })
+  .then(() => {
+    console.log("Promise 2");
+  });
+console.log("End");
+// Output will be:
+Start
+End
+Promise 1
+Promise 2
+Timeout

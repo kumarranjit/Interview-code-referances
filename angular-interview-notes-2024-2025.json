@@ -32,21 +32,38 @@ This will be especially useful for you as a Senior Front-End Developer (Angular 
   Faster onboarding
   Standalone components are now the recommended default for new Angular apps.
 
-4. What is the role of NgModule? Is it still required?
+4. In Angular, component communication depends on hierarchy.
+  Parent to child uses @Input, child to parent uses @Output.
+  For sibling or unrelated components, we use a shared service with RxJS Subject/BehaviorSubject.
+  For large-scale apps, we use state management like NgRx.
+  Angular 16+ also allows Signals for reactive communication.
+
+5. What is the role of NgModule? Is it still required?
   NgModule was traditionally used to organize and bootstrap Angular applications, 
   but with the introduction of standalone components, it is no longer required for new apps. 
   Angular now recommends a component-first architecture, while NgModule remains supported for legacy and migration use cases.
 
-5. What are signals in Angular?
-  Signals are Angular’s new reactive primitive for managing state with fine-grained reactivity.
-  They automatically track dependencies and update only what changes.
+6. What is signals in Angular?
+  Signal is a reactive state container that store a value and automatically notify consumer when the state value
+  changes,   
   Why signals?
   Better performance
   Less boilerplate than RxJS for UI state
   Predictable change detection
   Signals reduce unnecessary change detection and are ideal for local UI state.
 
-6. Difference between Component and Directive?
+  What is computes and effect in Angular signals?
+  computes() creates a derived signal that automatically updates when its dependencies change.
+    returns a new signal whose value is computed based on other signals. 
+    It re-evaluates whenever any of its dependencies change.
+    readonly signal Ex: fullName = computed(() => `${firstName()} ${lastName()}`);
+    
+  effect() runs a side effect whenever the signals it depends on change.
+    It is used for performing actions in response to signal changes, 
+    such as updating the DOM or making API calls.
+    Ex: effect(() => console.log(`Full name is: ${fullName()}`));
+
+7. Difference between Component and Directive?
   A Component is a directive with a template.
   It controls a view (UI) and is used to build screens and layouts.
 ✅ Key Points
