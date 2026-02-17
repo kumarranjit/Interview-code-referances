@@ -1,0 +1,11 @@
+1. What is RxJS?
+
+
+2. what is Observable? How to create? Realtime Usecase?
+
+3. what are the basic operator availabe in RxJs?
+
+    a. of =>
+    b. from => 
+    c. interval => 
+    d. timer =>

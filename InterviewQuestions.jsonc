@@ -1,0 +1,252 @@
+React/Next.JS Questions
+==========================
+1.How to handle the multiple api call’s in js.
+
+2.typescript new features
+
+3.React coding level
+
+4.Array , Object , core concepts why? To use (coding expl)Middleware react how to use?
+
+5.Real time project related max questions
+
+6.Write the example code for call, bind, apply.
+
+7.Purpose of useEffect?
+
+8. . Write the code of Redux for each steps. (From initialize to getting the store data Difference between Mock vs spy on. 
+
+9. Flex in CSS. Write the code for example
+
+10.How Map, filter & reduce work in Javascript and how they introduced.
+
+11.Create a Form that contains First Name & last Name as input fields and print the full Name in UI.
+
+12.Difference between inline & block in the display property.
+
+13.Explain MUI in React. How will you handle responsiveness for each device in MUI?
+
+14.Tell me resolution size for each screen types.
+
+15.Explain what is webpack and why we’re using in our project?
+
+16.Explain different types of loaders used in your previous project.
+
+17.Write the code for following task: You have list of product list. You have name and price in the object. You need to create new object using spread operator and give 50% discount for price and print it.
+
+18. Explain: margin: 2px 2px 2px 2px, margin: 2px 2px 2px, margin: 2px 2px
+
+19.Difference between npm i & npm ci
+
+20.Write a code in React to change the background on hover
+
+21.Create 3 promises, reject 2 and resolve 1 promise
+
+22.Render 1 component out of three 3 components based on 3 conditions. they expect you to write clean code, use design patterns.
+
+
+Html 5 Question;
+==================
+1. what is HTML5 Doctype? why should mention?
+2. HTML5 Feature?
+3. Difference between svg and canvas?
+
+1. diff b/w html4 and html5
+2. why do we need to use header tag in HTML
+3. what is the use of DOCTYPE in html 5
+4. semantic elements in HTML
+5. Drog and Drop syntax?
+6. Html API?
+7. Difference between SVG & Canvas?
+Explain new Form input types in HTML5.
+What is the importance of Drag and Drop in HTML5?
+Explain the concept of web storage in HTML5
+What are the advantages of using HTML5?
+What is image map in Html5?
+What is the application cache in HTML5 and why it is used?
+What are custom attributes in Html5? Explain
+
+
+CSS -3 Question;
+====================
+1. what are display properties? (none,inline, block, inline-block)
+2. what is difference inline and inline-block?
+3. CSS float Property? (none,left, right, initial, inherit)
+4. CSS position Property? position: static|absolute|fixed|relative|sticky|initial|inherit;
+5. CSS Box Model?
+6. What is  Pseudo-classes and Pseudo-element?Ex!
+
+1. css positions and diff
+2. opacity
+3. visiblity : hidden , display none diff
+
+
+JS  Question;
+=================
+Var, let, const
+Javascript Data types?
+Difference between null and undefine?
+what is Hoisting in javascript?
+Event Bubbling?
+How to handle exception in javascript?
+Difference between Document.onload & Window.onload?
+Difference between setTimeout & setInterval?
+How to stop setInterval method?
+what is the different Const and Object.freeze()?
+Object.seal()?
+
+1. Find duplicate number in array?
+2. What is difference between == and ===?
+3. closure function? and example?
+4. promises?
+5. Arrow function
+6. Prototype?
+7. Array methods?(Reduce,Some)
+8. Difference between call() vs apply()?
+9. currying function?
+10. Recursive function?
+11. callback function?
+12. Spread operator?
+13. Rest operator?
+14. Async Await?
+15. Mixin
+16. Map vs Weakmap?
+17. How to Merge two objects?
+18. How to Cloning an object?
+
+
+RxJS  Question;
+=================
+1. what is mergeMap in RxJS?
+Question no: 45 :- Whats the full form of RxJs?
+Question no: 46 :- What is the purpose of RxJs?
+Question no: 47 :- What are observables and observers?
+Question no: 48 :- Explain the use of Subscribe with sample code.
+Question no: 49 :- How to unsubscribe in RxJs?
+Question no: 50 :- Explain concept of operators with sample code.
+Question no: 51 :- How to install RxJs?
+Question no: 52 :- Differentiate between promise and RxJs?
+Question no: 53 :- In Angular where have you used RxJs?
+Question no: 54 :- Which operators have you used from RxJs?
+Question no: 55 :- What is Push/reactive vs Pull/Imperative?
+
+
+
+================================
+Angular interview Questions
+===========================
+1. angular view encapsulation
+2. why angular js developed as a SPA?
+3. angular pipe example, how to develope custom pipe
+4. what is typescript Enum, Rest Parameters?
+5. what are the datatypes available in typescript
+6. what difference between typescript and  ES6(ECMAScript 6, also known as ECMAScript 2015)
+7. 
+
+1. what is decorators in angular?
+2. how compiler know the component file and module file?
+3. what is two-way property binding?
+4. where we store AUTH token
+5. different type of browser cache?
+6. Difference between nghide and ngif
+7. how many files we create in angular?
+8. which command we use to run project?
+9. What is an AsyncPipe in Angular?
+
+1. Lozyloading How to do step by step?
+2. what are the class decorators?
+3. what is DI and how to create?
+4. difference between pipe and directives
+5. what is directive?
+6. Router & Router gourds?
+
+
+1. Explain Zone in Angular?
+2. Explain Ivy Renderer in Angular?
+3. What is Bazel and Closure Compiler in Angular6?
+4. Explain Service Worker in reference to Angular JS
+
+Question no: 1 :- Whats the use of Angular ?
+Question no: 2 :- What are directives in Angular ?
+Question no: 3 :- Explain the different types of Angular directives ?
+Question no: 4 :- Explain the importance of NPM and Node_Modules folder ?
+Question no: 5 :- Explain the importance of Package.json file in Angular ?
+Question no: 6 :- What is typescript and why do we need it ?
+Question no: 7 :- Explain importance of Angular CLI ?
+Question no: 8 :- Explain the importance of Component and Modules ?
+Question no: 9 :- What is a decorator in Angular ?
+Question no: 10 :- What are Annotation or MetaData ?
+Question no: 11 :- What is a template ?
+Question no: 12 :- Explain the four types of Data bindings in Angular ?
+Question no: 13 :- Explain architecture of Angular ?
+Question no: 14 :- What is SPA in Angular ?
+Question no: 15 :- How to implement SPA in Angular ?
+Question no: 16 :- How to implement routing in Angular ?
+Question no: 17 :- Explain Lazy Loading ?
+Question no: 18 :- How to implement Lazy Loading in Angular ?
+Question no: 19 :- Define Services ?
+Question no: 20 :- What is Depedency Injection ?
+Question no: 21 :- How to implement Depedency Injection ?
+Question no: 23 :- Whats the benefit of Depedency Injection ?
+Question no: 24 :- Differentiate between ng serve and ng build ?
+Question no: 25 :- Explain the --prod parameter in ng build ?
+Questions No:- 26 :- Explain ViewChild and ViewChildren?
+Questions No:- 27 :- Why do we need Template reference variables?
+Questions No:- 28 :- What is ContentProjection?
+Questions No:- 29 :- Explain Content projection Slot?
+Questions No:- 30 :- What is ContentChild and ContentChildren?
+Questions No:- 31 :- ViewChild vs ViewChildren vs ContentChild vs ContentChildren?
+Questions No:- 32 :- Explain the importance of Component life cycle ?
+Questions No:- 33 :- Explain events and sequence of component life cycle ?
+Questions No:- 34 :- Constructor vs ngOnInit() ?
+Questions No:- 35 :- How to make HTTP calls using Angular ?
+Questions No:- 36 :- What is the need of Subscribe function ?
+Questions No:- 37 :- How to handle errors when HTTP fails ?
+Questions No:- 38 :- How to pass data between components ?
+Questions No:- 39 :- Explain importance of input, output & event emitters ?
+Questions No:- 40 :- How to pass during routing ?
+Questions No:- 41 :- Is it a good practice to pass data using services ?
+Question No: 42:- What is the need of Angular Pipes?
+Question No: 43:- Can you name some built-in Angular Pipes?
+Question No: 44:- How to create Custom pipes in Angular?
+
+
+Angular profile client’s expectation,
+=============================================================
+JavaScript Ecosystem Expertise:
+
+How many years have you been working with JavaScript in production environments?
+
+What's your experience level with TypeScript?
+
+How long have you been developing with Angular, specifically version 14+?
+
+How long have you been developing with HTML, W3C Standard
+ 
+
+Styling & UI Development:
+==============================================================
+What's your background with CSS and preprocessors like SCSS or LESS?
+
+Have you worked with CSS frameworks like Bootstrap, Material Design, or Tailwind?
+
+Do you have experience building custom web components?
+
+Modern Development Practices:
+============================================
+Are you familiar with GraphQL for API development?
+
+What's your experience with RxJS and state management solutions?
+
+Have you worked with accessibility standards and W3C compliance?
+
+
+DevOps & Tooling:
+===================================================================================
+Do you have experience with CI/CD platforms like GitHub Actions, Jenkins, or Harness?
+
+Bonus Points:
+
+Any experience with React, React Native, or Flutter?
+
+Any Experience in building Custom UI Design Systems or Frameworks
