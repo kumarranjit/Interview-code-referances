@@ -1,0 +1,525 @@
+🔹 Topic: Angular Basics Every Interviewer Expects
+
+1️⃣ What is Angular?
+Angular is a TypeScript-based frontend framework developed by Google for building scalable, 
+single-page applications (SPAs) using a component-based architecture.
+_____________________________________________________________________________
+
+2️⃣ What are the key building blocks of Angular?
+ • Modules – organize application features
+ • Components – control views and UI logic
+ • Templates – HTML with Angular syntax
+ • Services – reusable business logic
+ • Dependency Injection (DI) – provides dependencies efficiently
+_____________________________________________________________________________
+
+3️⃣ What is a Component?
+A component is the core UI building block in Angular.
+It consists of:
+ • HTML template
+ • TypeScript class
+ • CSS styles
+
+Each component controls a specific part of the UI.
+_________________________________________________________________________________________
+
+4️⃣ What is Data Binding in Angular?
+Data binding synchronizes data between the component class and the template.
+
+Types:
+ • Interpolation {{ }} // Ex:{{ title }}
+   One-way data binding from component to template
+ • Property binding [ ] // Ex: [src]="imageUrl"
+   One-way data binding from component to DOM element
+ • Event binding ( ) // Ex: (click)="handleClick()"
+   One-way data binding from DOM element to component
+ • Two-way binding [(ngModel)] // Ex: [(ngModel)]="username"
+   Two-way data binding between component and DOM element
+________________________________________________________________________________________
+
+5️⃣ Why is Angular suitable for large applications?
+ • Strong structure and conventions
+ • Built-in DI and RxJS
+ • Powerful CLI
+ • Easy to scale and maintain
+
+ Angular Lifecycle Hooks
+
+Continuing the Angular Day-wise Interview Series, focusing on a topic that almost every Angular interview touches.
+_____________________________________________________________________________
+
+🔹 What is an Angular Module?
+An Angular module (NgModule) is used to group related components, directives, pipes, and services into a single unit.
+It helps with:
+• Code organization
+• Feature separation
+• Lazy loading
+_____________________________________________________________________________
+🔹 Types of Angular Modules
+• Root module (AppModule)
+• Feature modules
+• Shared modules
+• Core modules
+_____________________________________________________________________________
+🔹 What are Standalone Components?
+Standalone components (Angular 14+) allow creating components without NgModules.
+They can directly import dependencies like:
+• CommonModule
+• FormsModule
+• Other standalone components
+_____________________________________________________________________________
+🔹 Benefits of Standalone Components
+• Less boilerplate
+• Faster learning curve
+• Better tree-shaking
+• Simplified architecture
+_____________________________________________________________________________
+🔹 NgModule vs Standalone Components
+NgModule:
+• More boilerplate
+• Required before Angular 14
+• Good for large legacy apps
+Standalone Components:
+• Minimal setup
+• Modern Angular approach
+• Recommended for new applications
+
+💡 Interview Tip
+Angular is moving towards standalone-first architecture. Knowing when and how to use it is a strong plus in interviews.
+___________________________________________________________________________________________________________________
+🔹 Topic: Angular Lifecycle Hooks
+
+1️⃣ What are Angular lifecycle hooks?
+Lifecycle hooks are methods that allow you to tap into different phases of a component’s 
+life—from creation to destruction.
+_____________________________________________________________________________
+
+2️⃣ Most commonly used lifecycle hooks?
+ • ngOnInit()
+Called once after component initialization.
+👉 Best place for API calls and initial setup.
+ • ngOnChanges()
+Triggered when @Input() values change.
+👉 Used when a component reacts to parent data changes.
+ • ngAfterViewInit()
+Called after the component’s view is fully initialized.
+👉 Useful for DOM access and ViewChild logic.
+ • ngOnDestroy()
+Called before the component is destroyed.
+👉 Cleanup subscriptions, timers, event listeners.
+_____________________________________________________________________________
+
+3️⃣ Difference between constructor and ngOnInit()?
+ • constructor → used for dependency injection
+ • ngOnInit() → used for component initialization logic
+_____________________________________________________________________________
+
+4️⃣ Why is ngOnDestroy() important?
+Failing to clean up subscriptions can lead to memory leaks and performance issues.
+_____________________________________________________________________________
+
+5️⃣ Interview Tip 💡
+Interviewers often ask:
+👉 “Where do you unsubscribe from observables?”
+✔️ Correct answer: ngOnDestroy()
+_____________________________________________________________________________________
+
+🔹Topic: Change Detection in Angular
+
+1️⃣ What is Change Detection?
+Change Detection is the mechanism Angular uses to sync data changes with the UI.
+Whenever application state changes, Angular checks components and updates the DOM if needed.
+____________________________________________________________________________________
+
+2️⃣ How does Angular trigger change detection?
+Change detection runs on:
+ • User events (click, input)
+ • HTTP responses
+ • Timers (setTimeout, setInterval)
+ • Promises & Observables
+
+👉 Powered by Zone.js
+____________________________________________________________________________________
+
+3️⃣ What is Default Change Detection strategy?
+ • Angular checks all components in the component tree
+ • Simple but can cause performance issues in large apps
+____________________________________________________________________________________
+
+4️⃣ What is OnPush Change Detection?
+OnPush tells Angular to run change detection only when:
+ • @Input() reference changes
+ • An event occurs inside the component
+ • An observable emits (via async pipe)
+
+📌 This significantly improves performance.
+____________________________________________________________________________________
+
+5️⃣ When should you use OnPush?
+ • Large applications
+ • Components with immutable data
+ • Reusable / presentational components
+____________________________________________________________________________________
+
+6️⃣ Common interview follow-up 💡
+👉 Why doesn’t UI update with OnPush?
+✔️ Because object reference didn’t change — Angular relies on immutability.
+__________________________________________________________________________________
+
+🔹Topic: Angular Directives
+
+1️⃣ What is a Directive in Angular?
+A directive is a class that adds behavior to existing DOM elements or changes how elements are rendered.
+____________________________________________________________________________________
+
+2️⃣ Types of Directives in Angular
+ • Component Directives
+Components themselves are directives with a template.
+ • Structural Directives
+Change the DOM structure by adding/removing elements.
+Examples: *ngIf, *ngFor, *ngSwitch
+ • Attribute Directives
+Change the appearance or behavior of an element.
+Examples: ngClass, ngStyle, custom directives
+____________________________________________________________________________________
+
+3️⃣ Key difference: Structural vs Attribute Directives
+ • Structural → prefixed with *, modify DOM layout
+ • Attribute → applied as attributes, modify element behavior
+____________________________________________________________________________________
+
+4️⃣ Why does Angular allow only one structural directive per element?
+Because each structural directive manipulates the DOM.
+👉 To use multiple, wrap elements inside ng-container.
+____________________________________________________________________________________
+
+5️⃣ Real-world usage
+ • *ngIf for conditional rendering
+ • *ngFor for dynamic lists
+ • Attribute directives for reusable UI behavior (highlight, permissions, etc.)
+____________________________________________________________________________________
+
+🔹Topic: Services & Dependency Injection (DI)
+
+1️⃣ What is a Service in Angular?
+A service is a reusable class that contains business logic, API calls, or shared data that can be used across multiple components.
+____________________________________________________________________________________
+
+2️⃣ Why do we use Services?
+ • Separation of concerns
+ • Reusability
+ • Cleaner components
+ • Easier testing
+____________________________________________________________________________________
+
+3️⃣ What is Dependency Injection?
+Dependency Injection is a design pattern where Angular provides required dependencies to a class instead of the class creating them.
+
+👉 Angular uses a hierarchical injector system.
+____________________________________________________________________________________
+
+4️⃣ What does providedIn: 'root' mean?
+It registers the service in the root injector, making it:
+ • Singleton
+ • Available throughout the app
+ • Tree-shakable (better performance)
+____________________________________________________________________________________
+
+5️⃣ Difference between providers array and providedIn?
+ • providers in component → new instance per component
+ • providedIn: 'root' → single global instance
+____________________________________________________________________________________
+
+6️⃣ Interview Tip 💡
+👉 When would you provide a service at component level?
+✔️ When you need isolated state per component instance.
+
+📌 Services + DI are core to scalable Angular architecture.
+____________________________________________________________________________________
+🔹 Topic: Angular Routing
+
+1️⃣ What is Angular Routing?
+Angular Routing enables navigation between different views/components without reloading the page, 
+making it a Single Page Application (SPA).
+____________________________________________________________________________________
+
+2️⃣ What is RouterModule.forRoot() vs forChild()?
+ • forRoot() → used in the root module, creates the main router
+ • forChild() → used in feature modules for child routes
+____________________________________________________________________________________
+
+3️⃣ What is Lazy Loading in Angular?
+Lazy loading loads feature modules only when required, reducing the initial bundle size.
+
+📌 This significantly improves application startup performance.
+____________________________________________________________________________________
+
+4️⃣ How do you implement Lazy Loading?
+Using loadChildren in route configuration to dynamically import modules.
+____________________________________________________________________________________
+
+5️⃣ What are Route Guards?
+Route guards control access to routes based on conditions.
+
+Common guards:
+ • CanActivate
+ • CanDeactivate
+ • CanLoad
+____________________________________________________________________________________
+
+6️⃣ Interview Tip 💡
+👉 Why use CanLoad instead of CanActivate?
+✔️ CanLoad prevents lazy modules from even loading, improving security and performance.
+
+📌 Routing & lazy loading are must-know for scalable Angular apps.
+____________________________________________________________________________________
+Route Guards & Resolvers
+
+🔹 What are Route Guards in Angular?
+ Route guards are used to control access to routes based on conditions like authentication or permissions.
+
+🔹 Commonly used Route Guards
+ • CanActivate – allows or blocks route navigation
+ • CanActivateChild – protects child routes
+ • CanDeactivate – prevents leaving a route (unsaved changes)
+ • CanLoad – prevents lazy modules from loading
+____________________________________________________________________________________
+🔹 What is a Resolver?
+ A resolver is used to fetch data before a route is activated, ensuring the component loads with required data.
+
+🔹 Guard vs Resolver
+ Guards → decide whether navigation is allowed
+ Resolvers → decide what data is needed before navigation
+
+🔹 Why are Resolvers useful?
+ • Prevent empty UI states
+ • Improve user experience
+ • Centralize data fetching logic
+
+💡 Interview Tip
+ Use CanLoad for secure lazy loading and Resolvers for preloading critical data.
+____________________________________________________________________________________
+
+🔹 Topic: Template-Driven vs Reactive Forms
+
+1️⃣ What are Forms in Angular?
+Angular forms provide a way to capture user input, validate data, and manage form state.
+____________________________________________________________________________________
+
+2️⃣ What is a Template-Driven Form?
+ • Logic is mostly in the HTML template
+ • Uses ngModel
+ • Simple to set up
+ • Best for small, simple forms
+
+📌 Less control, harder to test.
+____________________________________________________________________________________
+
+3️⃣ What is a Reactive Form?
+ • Logic is in the TypeScript component
+ • Uses FormControl, FormGroup, FormArray
+ • Highly scalable and testable
+ • Best for complex and dynamic forms
+____________________________________________________________________________________
+
+4️⃣ Key differences interviewers expect
+
+Template-Driven Reactive
+Easy to use More control
+Less scalable Highly scalable
+Harder to test Easy to unit test
+Two-way binding Immutable data model
+____________________________________________________________________________________
+
+5️⃣ When should you prefer Reactive Forms?
+ • Complex validations
+ • Dynamic form fields
+ • Large enterprise applications
+
+📌 Most production-grade Angular apps rely on Reactive Forms.
+____________________________________________________________________________________
+🔹 Topic: HttpClient & Interceptors
+
+1️⃣ What is HttpClient in Angular?
+ HttpClient is Angular’s built-in service used to communicate with backend APIs using HTTP methods 
+ like GET, POST, PUT, and DELETE.
+📌 It returns Observables, making it easy to work with RxJS operators.
+_____________________________________________________________________________
+
+2️⃣ How does Angular handle HTTP responses?
+ Angular automatically:
+Converts JSON responses
+Provides typed responses using TypeScript generics
+Supports intercepting requests and responses
+_____________________________________________________________________________
+
+3️⃣ What is an HTTP Interceptor?
+ An HTTP Interceptor is used to intercept and modify HTTP requests or responses globally.
+
+Common use cases:
+1.Attaching auth tokens
+2.Logging requests
+3.Global error handling
+4.Showing/hiding loaders
+_____________________________________________________________________________
+4️⃣ Can we have multiple interceptors?
+ ✅ Yes.
+ Angular supports multiple interceptors, executed in the order they are provided.
+_____________________________________________________________________________
+
+5️⃣ Difference between Interceptor and Service?
+Service → handles specific API logic
+Interceptor → handles cross-cutting concerns across all APIs
+_____________________________________________________________________________
+6️⃣ Interview Tip 💡
+ 👉 Where do you add authorization headers?
+ ✔️ In an HTTP Interceptor, not inside individual services.
+📌 Understanding interceptors shows production-level Angular experience.
+_____________________________________________________________________________
+Topic: Pipes (Built-in & Custom)
+
+🔹 What is a Pipe in Angular?
+ A pipe is used to transform data directly in the template without modifying the original value. It helps keep templates clean and readable.
+
+🔹 Common built-in pipes
+ • date
+ • currency
+ • uppercase / lowercase
+ • decimal
+ • async
+__________________________________________________________________________________________________________
+🔹 What is a Custom Pipe?
+ A custom pipe allows you to create reusable transformation logic such as formatting values, mapping status labels, or custom display rules.
+__________________________________________________________________________________________________________
+🔹 Pure vs Impure Pipes
+ Pure Pipe (default):
+ • Executes only when the input reference changes
+ • Better performance
+Impure Pipe:
+ • Executes on every change detection cycle
+ • Can impact performance if not used carefully
+_____________________________________________________________________________
+🔹 Why is the async pipe important?
+ • Automatically subscribes and unsubscribes
+ • Prevents memory leaks
+ • Works seamlessly with Observables and Promises
+
+💡 Interview Tip
+ Avoid heavy business logic inside pipes. Keep complex logic inside services, not templates.
+__________________________________________________________________________________________________________
+
+Content Projection & View Encapsulation
+Continuing my Angular day-wise interview series, covering concepts that help build reusable and maintainable components.
+
+🔹 What is Content Projection?
+ Content projection allows you to pass content from a parent component into a child component using <ng-content>.
+It helps in creating reusable and flexible UI components.
+__________________________________________________________________________________________________________
+🔹 Types of Content Projection
+ • Single-slot projection – projects all content into one slot
+ • Multi-slot projection – projects content into specific slots using selectors
+_____________________________________________________________________________
+🔹 Real-world use cases
+ • Reusable UI components (cards, modals, tabs)
+ • Layout components
+ • Design system components
+_____________________________________________________________________________
+🔹 What is View Encapsulation?
+ View encapsulation defines how component styles are scoped and applied.
+Angular provides three types:
+ • Emulated (default) – styles scoped to the component
+ • None – styles applied globally
+ • ShadowDom – uses native Shadow DOM
+__________________________________________________________________________________________________________
+
+🔹 When should you change encapsulation?
+ • Design systems → None or ShadowDom
+ • Isolated components → Emulated
+
+💡 Interview Tip
+ Content projection is often asked with real examples, not theory. Be ready to explain where you’ve used it.
+__________________________________________________________________________________________________________
+🔹Topic: RxJS Fundamentals
+
+1️⃣ What is RxJS?
+RxJS is a library for reactive programming using Observables, 
+used extensively in Angular for handling async operations like HTTP calls and events.
+____________________________________________________________________________________
+
+2️⃣ What is an Observable?
+An Observable represents a stream of data that can emit:
+ • Multiple values
+ • Over time
+ • Synchronously or asynchronously
+
+👉 Unlike Promises, Observables can emit multiple values and be cancelled.
+____________________________________________________________________________________
+
+3️⃣ Observable vs Promise?
+ • Observable → lazy, cancellable, multiple values
+ • Promise → eager, not cancellable, single value
+____________________________________________________________________________________
+
+4️⃣ What is a Subscription?
+A Subscription is the execution of an Observable.
+You receive data by calling .subscribe().
+
+📌 Subscriptions must be unsubscribed to avoid memory leaks.
+____________________________________________________________________________________
+
+5️⃣ How do you handle unsubscription?
+ • async pipe (recommended)
+ • takeUntil() pattern
+ • Unsubscribe in ngOnDestroy()
+____________________________________________________________________________________
+
+6️⃣ Interview Tip 💡
+👉 Why is async pipe preferred?
+✔️ It automatically subscribes and unsubscribes, preventing memory leaks.
+
+📌 RxJS knowledge is mandatory for real-world Angular development.
+____________________________________________________________________________________
+
+🔹 Topic: RxJS Mapping Operators
+
+1️⃣ What does map() do?
+map() transforms emitted values into new values.
+
+📌 Use case: simple data transformation.
+____________________________________________________________________________________
+
+2️⃣ What is switchMap()?
+switchMap():
+ • Cancels the previous inner observable
+ • Switches to the latest one
+
+📌 Best for:
+ • Search inputs
+ • Auto-complete
+ • Type-ahead APIs
+____________________________________________________________________________________
+
+3️⃣ What is mergeMap()?
+mergeMap():
+ • Subscribes to all inner observables
+ • Executes them in parallel
+
+📌 Best for:
+ • Multiple independent API calls
+ • Fire-and-forget operations
+____________________________________________________________________________________
+
+4️⃣ Key difference interviewers expect
+
+Operator Cancels previous Parallel Use case
+map ❌ ❌ Transform data
+switchMap ✅ ❌ Latest request only
+mergeMap ❌ ✅ Parallel requests
+____________________________________________________________________________________
+
+5️⃣ Common interview trap 💡
+👉 Why not always use mergeMap()?
+✔️ Because uncontrolled parallel calls can cause race conditions.
+
+📌 Choosing the right operator shows real production experience.
+____________________________________________________________________________________
