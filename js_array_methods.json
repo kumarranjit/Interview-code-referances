@@ -313,12 +313,12 @@ var people = [
 { name: 'mani', age: 25 },
 ];
 
-var groupBy = function(people, property) {
-  return people.reduce((acc, currObj) => {
-    (acc[currObj[property]] = acc[currObj[property]] || []).push(currObj);
+const groupBy = (arr, prop) =>
+  arr.reduce((acc, obj) => {
+    (acc[obj[prop]] ??= []).push(obj);
     return acc;
   }, {});
-};
+  
 groupBy(people, 'age');
 
 --------------------------------------------------------------------------------------------------------------------------------
@@ -1665,6 +1665,26 @@ var people = [
   console.log(people)
 
 https://anuradha.hashnode.dev/shallow-vs-deep-copy-in-javascript
+
+What is structuredClone()?
+---------------------------------
+
+structuredClone() creates a deep copy of an object/value, duplicating all nested structures without sharing references.
+structuredClone() is a native JavaScript API that performs a true deep copy, 
+supporting complex types and circular references without sharing object references.
+
+const user = {
+  name: "Ranjit",
+  address: { city: "Chennai" }
+};
+
+const copy = structuredClone(user);
+copy.address.city = "Bangalore";
+
+console.log(user.address.city); // "Chennai" ✅
+✔ No shared references
+✔ Safe deep copy
+=============================================================================
 
 ES6 (shallow copy);
 --------------------

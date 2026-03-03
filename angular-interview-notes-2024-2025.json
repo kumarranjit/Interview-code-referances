@@ -108,6 +108,13 @@ This will be especially useful for you as a Senior Front-End Developer (Angular 
 8. What is dependency injection (DI) in Angular?
 Dependency Injection in Angular is a design pattern where services are provided by Angular’s injector instead of being created manually, 
 promoting loose coupling, reusability, and testability.
+============================
+DI is an application design pattern where rather then creating object instances from with in the component, 
+angular injects it viathe constructor.
+DI Helps to decouples class dependencies, so that when you addnew dependencies you do not have change everywhere.  
+
+ViewChild and ViewChildren helps to reference view elements which belongs to his own views
+ContentChild and ContentChildren helps to accessview elements which is projected by the parent.
 
 9. What is zone.js and why does Angular use it?
 

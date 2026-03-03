@@ -621,7 +621,7 @@ console.log(x); O/P ; //undefined
 var x = 100;   
 
 
-console.log(y); //uncaught ReferenceError: Cannot access 'y' before initialization
+console.log(y); //uncaught ReferenceError: Cannot access 'y' before initialization , Temporal Dead Zone
 let y = 100;
 
 console.log(foo()); O/P ; //undefined
@@ -687,66 +687,483 @@ The statement “use strict”; instructs the browser to use the Strict mode,
 which is a reduced and safer feature set of JavaScript
 
 
-// Observable vs Promise:
-===========================
-In general, promises handle single events that fail or succeed. 
-Though now there are many libraries which can make the promise more powerful.
-Observable is a set of the stream that can handle no to many events. 
-Observables are preferred over promises because they can be aborted, retry in case if it fails, and much more!
-
-// Observable vs Subject
-===========================
-The subject is a special type of Observable. 
-Observable is one of the base classes in RxJS and the Subject is one of its derived types. 
-Subjects implement observer design pattern which is required to set some value
-Observable always need a subscription and implement the observable pattern.
-Observable is always unidirectional meaning it flows from source to subscriber. 
-The subject is bidirectional, information flow from the source to the subscriber, and vice versa.
-
-// BehaviourSubject: 
-==================
-A BehaviourSubject stores the latest value and immediately sends it to all subscribers. 
-for Ex:  I have created a message service that can be consumed from two Angular components and its bidirectional.
-
-/ /mergeMap
-===========
-Creates new observables for any given source. 
-All previous streams/observable keep alive. 
-There is no order in the returned observables, moreover, the order is not preserved. 
-The best use case for mergeMap is when combining a click event with API calls
-
-// concatMap
-==============
-Similar to mergeMap but the order of observables is well preserved. 
-Preserve the order and emits all observable value, works synchronously.
-Execute slowly because it works synchronously, waits for first observable to complete then only start new observables stream.
-
-// switchMap
-==========
-Immediately creates new observables and completes the old observables. 
-The best use case for switchMap is search auto-complete. Whenever the user starts typing a new keyword for search, 
-a new observable is created and the old one is completed. Check combineLatest example below with mergeMap and switchMap.
- 
-// flatMap
-============= 
-Immediately creates observables and previous observables are kept alive. 
-fatmap is an alias of mergemap, mergeMap accepts an optional parameter concurrency, 
-which defines how many Observables can be subscribed at the same time
-
-
-//DI 
-===
-DI is an application design pattern where rather then creating object instances from with in the component, 
-angular injects it viathe constructor.
-DI Helps to decouples class dependencies, so that when you addnew dependencies you do not have change everywhere.  
-
-ViewChild and ViewChildren helps to reference view elements which belongs to his own views
-
-ContentChild and ContentChildren helps to accessview elements which is projected by the parent.
-
 //Best practices
 ==================
 Preventing cross-site scripting (XSS) 
 HTTP-level vulnerabilities
 Cross-site request forgery (CSRF)
 Cross-site script inclusion (XSSI) 
+_______________________________________________________________________________________________________________
+🔹 Topic: JavaScript Security Basics
+
+1️⃣ What is XSS (Cross-Site Scripting)?
+XSS occurs when an attacker injects malicious scripts into a trusted website.
+
+📌 Types:
+ • Stored XSS
+ • Reflected XSS
+ • DOM-based XSS
+
+2️⃣ How can XSS be prevented?
+ • Escape user inputs
+ • Use frameworks’ built-in sanitization
+ • Avoid innerHTML
+ • Use Content Security Policy (CSP)
+
+3️⃣ What is CSRF (Cross-Site Request Forgery)?
+CSRF tricks a user into making unauthorized requests using their authenticated session.
+
+4️⃣ How do you prevent CSRF?
+ • CSRF tokens
+ • SameSite cookies
+ • Proper CORS configuration
+
+5️⃣ Why is this important for frontend developers?
+Because frontend code plays a big role in:
+ • Input handling
+ • API security
+ • User data protection
+____________________________________________________________________________________________
+🔹  JavaScript Fundamentals
+
+1️⃣ What is the difference between var, let, and const?
+ • var → function scoped, can be redeclared & hoisted (initialized as undefined)
+ • let → block scoped, cannot be redeclared, hoisted but not initialized
+ • const → block scoped, cannot be reassigned (but objects can be mutated)
+
+2️⃣ What is hoisting in JavaScript?
+Hoisting is JavaScript’s behavior of moving declarations to the top of their scope during execution.
+ • var → hoisted and initialized
+ • let & const → hoisted but in Temporal Dead Zone
+
+3️⃣ Difference between == and ===?
+ • == → compares values after type conversion
+ • === → compares both value and type (recommended)
+
+4️⃣ What is scope in JavaScript?
+Scope defines where variables are accessible:
+ • Global scope
+ • Function scope
+ • Block scope (let, const)
+
+1️⃣ What is Hoisting in JavaScript?
+Hoisting is JavaScript’s behavior of moving declarations to the top of their scope during the compilation phase.
+
+In JavaScript, during hoisting, var variables are declared and initialized with undefined,
+whereas let and const are declared but not initialized, which creates a Temporal Dead Zone.
+
+📌 Important: Only declarations are hoisted, not initializations.
+
+2️⃣ How are var, let, and const hoisted differently?
+ • var → hoisted and initialized with undefined
+ • let & const → hoisted but not initialized
+
+3️⃣ What is the Temporal Dead Zone (TDZ)?
+whereas let and const remain uninitialized, creating a Temporal Dead Zone until their declaration line is executed.
+
+The Temporal Dead Zone (TDZ) is the time between when a variable is hoisted and when it is initialized.
+During this period, accessing the variable results in a ReferenceError.
+
+4️⃣ Why was TDZ introduced?
+ • Prevents accidental access before declaration
+ • Encourages safer and more predictable code
+ • Reduces bugs caused by var
+___________________________________________________________________________________________
+🔹 Topic: Event Loop, Call Stack & Async JavaScript
+
+1️⃣ What is the Call Stack?
+The Call Stack is a data structure that keeps track of function calls in JavaScript.
+ • Executes code synchronously
+ • Follows LIFO (Last In, First Out) order
+
+2️⃣ What is the Event Loop?
+The Event Loop constantly checks:
+ • If the call stack is empty
+ • If yes, it pushes pending tasks from queues to the call stack
+
+This is how JavaScript handles asynchronous operations despite being single-threaded.
+
+3️⃣ What are Microtasks and Macrotasks?
+ • Microtasks → Promise.then, queueMicrotask
+ • Macrotasks → setTimeout, setInterval, DOM events
+
+👉 Microtasks always execute before macrotasks once the call stack is clear.
+
+4️⃣ Order of execution?
+ 1. Synchronous code
+ 2. Microtask queue
+ 3. Macrotask queue
+
+5️⃣ Why is this important in real projects?
+Understanding the event loop helps to:
+ • Debug async issues
+ • Avoid unexpected UI freezes
+ • Write predictable async code in Angular/React apps
+
+📌 This topic is a must-know for frontend interviews and real-world performance debugging.
+____________________________________________________________________________________________
+🔹 Topic: Closures & Execution Context
+
+1️⃣ What is a Closure in JavaScript?
+A closure is created when an inner function remembers and accesses variables from its outer function, even after the outer function has finished executing.
+
+👉 In simple words: Function + its lexical scope = Closure
+
+2️⃣ Why are closures useful?
+Closures are commonly used for:
+ • Data encapsulation (private variables)
+ • Callbacks
+ • Event handlers
+ • Currying and memoization
+
+3️⃣ Real-time example of a closure?
+A counter function where the count variable is not accessible directly but remembered by the inner function.
+
+4️⃣ What is Execution Context?
+Execution Context is the environment where JavaScript code is executed. It includes:
+ • Variable Environment
+ • Scope Chain
+ • this keyword
+
+Types:
+ • Global Execution Context
+ • Function Execution Context
+
+5️⃣ Is closure a performance issue?
+Closures can cause memory leaks if unused references are retained, so proper cleanup is important.
+
+📌 Closures are one of the most frequently asked concepts in JavaScript interviews, especially for mid-level frontend roles.
+__________________________________________________________________________________________________________________________
+🔹 Topic: this Keyword, call, apply, bind
+
+1️⃣ What is this in JavaScript?
+this refers to the object that is executing the current function.
+Its value depends on how the function is called, not where it is defined.
+
+2️⃣ this in different scenarios:
+ • Global context → refers to window (non-strict mode)
+ • Object method → refers to the object
+ • Function call → undefined (strict mode)
+ • Arrow function → inherits this from lexical scope
+
+3️⃣ Difference between call, apply, and bind?
+ • call() → invokes function immediately, arguments passed individually
+ • apply() → invokes function immediately, arguments passed as an array
+ • bind() → returns a new function with bound this
+
+4️⃣ When do we use bind() in real projects?
+ • Event handlers
+ • Passing methods as callbacks
+ • Preventing context loss in class-based components
+
+5️⃣ Why arrow functions don’t have their own this?
+Arrow functions are designed to avoid dynamic this binding, making code more predictable.
+_____________________________________________________________________________________________________________________
+🔹 Topic: Shallow Copy vs Deep Copy
+
+1️⃣ What is a Shallow Copy?
+A shallow copy duplicates only the top-level properties.
+Nested objects still share the same reference.
+
+Common ways:
+ • Spread operator { ...obj } 
+    Example: const obj1 = { a: 1, b: { c: 2 } };
+    const obj2 = { ...obj1 };
+ • Object.assign()
+   Example: const obj1 = { a: 1, b: { c: 2 } };
+   const obj2 = Object.assign({}, obj1);
+
+2️⃣ What is a Deep Copy?
+A deep copy creates a completely independent copy, including all nested objects.
+
+Common ways:
+ • structuredClone() (recommended)
+ • JSON.parse(JSON.stringify(obj)) (with limitations)
+
+3️⃣ Difference between Shallow and Deep Copy?
+ • Shallow copy → changes in nested objects affect the original
+ • Deep copy → no shared references
+
+4️⃣ Why is this important in frontend frameworks?
+ • State mutation issues in React
+ • Change detection problems in Angular
+ • Unexpected UI bugs
+
+5️⃣ When should you use deep copy?
+ • Complex nested state updates
+ • Immutable data handling
+ • Preventing side effects
+_____________________________________________________________________________________________________________________
+
+🔹 Topic: Debouncing vs Throttling
+
+1️⃣ What is Debouncing?
+Debouncing ensures a function runs only after a specified delay once the event stops firing.
+
+📌 Example use cases:
+ • Search input API calls
+ • Window resize events
+ • Form validations
+
+2️⃣ What is Throttling?
+Throttling ensures a function runs at most once in a fixed interval, no matter how many times the event fires.
+
+📌 Example use cases:
+ • Scroll events
+ • Mouse move events
+ • Infinite scrolling
+
+3️⃣ Key difference between Debounce & Throttle?
+ • Debounce → waits for inactivity
+ • Throttle → runs at regular intervals
+
+4️⃣ Which one is better?
+Neither is “better” universally — it depends on the use case:
+ • User input → Debounce
+ • Continuous events → Throttle
+
+5️⃣ Real-world relevance?
+These techniques help:
+ • Improve performance
+ • Reduce unnecessary API calls
+ • Enhance user experience
+_____________________________________________________________________________________________________________________
+
+🔹 Topic: Mutability vs Immutability
+
+1️⃣ What is Mutability?
+Mutability means changing the original object or array directly.
+
+📌 Examples:
+ • push(), pop()
+ • Direct object property assignment
+
+2️⃣ What is Immutability?
+Immutability means creating a new copy instead of modifying existing data.
+
+📌 Examples:
+ • Spread operator (...)
+ • map, filter, concat
+
+3️⃣ Why is immutability important?
+ • Predictable state updates
+ • Efficient change detection
+ • Easier debugging and time-travel debugging
+
+4️⃣ How does this affect React & Angular?
+ • React relies on reference changes to trigger re-renders
+ • Angular’s OnPush change detection benefits from immutability
+
+5️⃣ Interview takeaway
+Immutability helps avoid side effects and unexpected UI bugs.
+_____________________________________________________________________________________________________________________
+🔹 Topic: map, filter, reduce
+
+1️⃣ What does map() do?
+map() transforms each element of an array and returns a new array without mutating the original one.
+
+📌 Use case: data transformation.
+
+2️⃣ What does filter() do?
+filter() returns a new array with elements that satisfy a given condition.
+
+📌 Use case: removing unwanted data.
+
+3️⃣ What does reduce() do?
+reduce() reduces an array to a single value by applying a reducer function.
+
+📌 Use case:
+ • Sum / aggregation
+ • Grouping data
+ • Flattening arrays
+
+4️⃣ Key differences interviewers look for
+ • map → transform
+ • filter → select
+ • reduce → combine
+
+5️⃣ Why are these preferred over loops?
+ • Cleaner and more readable
+ • Immutable approach
+ • Easier debugging and testing
+_____________________________________________________________________________________________________________________
+🔹 Topic: Arrow Functions vs Normal Functions
+
+1️⃣ What is the main difference?
+Arrow functions are shorter syntax functions but behave differently from normal functions.
+
+2️⃣ How is this different?
+ • Normal function → this is dynamic (depends on call)
+ • Arrow function → this is lexical (inherits from parent scope)
+
+3️⃣ Do arrow functions have arguments object?
+❌ No.
+Arrow functions don’t have their own arguments; they inherit from the parent scope.
+
+4️⃣ Can arrow functions be used as constructors?
+❌ No.
+Arrow functions do not have a prototype, so they cannot be called with new.
+
+5️⃣ When should you NOT use arrow functions?
+ • Object methods that rely on this
+ • Constructor functions
+ • When dynamic context is needed
+_____________________________________________________________________________________________________________________
+🔹 Day 13 Topic: JavaScript Modules
+
+1️⃣ What are JavaScript Modules?
+Modules allow splitting code into reusable, maintainable files with clear boundaries.
+
+2️⃣ Difference between ES Modules and CommonJS?
+ • ES Modules (ESM)
+ • Uses import / export
+ • Static imports (hoisted)
+ • Supported natively in browsers
+ • CommonJS
+ • Uses require() / module.exports
+ • Dynamic imports
+ • Mainly used in Node.js
+
+3️⃣ What is Tree Shaking?
+Tree shaking removes unused code during bundling, reducing final bundle size.
+👉 Works best with ES Modules.
+
+4️⃣ Why are modules important in frontend apps?
+ • Better code organization
+ • Improved performance
+ • Easier testing and scaling
+
+5️⃣ Where do we use this daily?
+ • Angular modules & lazy loading
+ • React component-based architecture
+ • Shared utility libraries
+___________________________________________________________________________________________________________________
+🔹 Topic: Destructuring, Rest & Spread Operators
+
+1️⃣ What is Destructuring?
+Destructuring allows extracting values from arrays or objects into variables in a clean and readable way.
+
+📌 Helps reduce repetitive code and improves clarity.
+
+2️⃣ Object vs Array Destructuring?
+ • Object destructuring → based on property names
+ • Array destructuring → based on position
+
+3️⃣ What is the Rest Operator (...)?
+The rest operator collects multiple values into a single variable.
+ • Used in function parameters
+ • Used while destructuring
+
+4️⃣ What is the Spread Operator (...)?
+The spread operator expands elements of arrays or objects.
+ • Copy arrays/objects
+ • Merge objects
+ • Pass multiple arguments to functions
+
+5️⃣ Common interview pitfall?
+Spread creates a shallow copy, not a deep copy — nested objects still share references.
+__________________________________________________________________________________________________________________________
+🔹 Topic: Equality & Object Comparison
+
+1️⃣ Difference between == and ===?
+ • == → loose equality, performs type conversion
+ • === → strict equality, compares both value and type
+
+👉 Always prefer === in real projects.
+
+2️⃣ Why does [] == [] return false?
+Because objects (including arrays) are compared by reference, not by value.
+Each array creates a new memory reference.
+
+3️⃣ Why is {} === {} false?
+Same reason — different object references in memory.
+
+4️⃣ How do you compare objects properly?
+ • Compare specific properties
+ • Convert to string (limited cases)
+ • Use deep comparison utilities
+
+5️⃣ What is Object.is()?
+Object.is() is similar to === but handles edge cases better:
+ • NaN === NaN → false
+ • Object.is(NaN, NaN) → true
+ • +0 and -0 are treated differently
+__________________________________________________________________________________________________________________________
+🔹 Topic: Currying & Function Composition
+
+1️⃣ What is Currying?
+Currying is the technique of breaking a function with multiple arguments into a sequence of functions, each taking a single argument.
+
+👉 Example idea:
+sum(a, b, c) → sum(a)(b)(c)
+
+2️⃣ Why is currying useful?
+ • Reusability of functions
+ • Partial application
+ • Cleaner and more readable code
+
+3️⃣ What is Function Composition?
+Function composition is combining multiple functions where the output of one function becomes the input of the next.
+
+👉 compose(f, g)(x) → f(g(x))
+
+4️⃣ Where is this used in real projects?
+ • Redux middleware
+ • Utility/helper functions
+ • Data transformations in frontend apps
+
+5️⃣ Is this common in interviews?
+Yes — especially for mid to senior frontend roles, to check how well you understand functions beyond basics.
+__________________________________________________________________________________________________________________________
+🔹 Topic: Prototypes & Prototype Chain
+
+1️⃣ What is a Prototype in JavaScript?
+Every JavaScript object has an internal property called [[Prototype]], which allows objects to inherit properties and methods from another object.
+
+2️⃣ What is the Prototype Chain?
+When a property is accessed:
+ • JavaScript looks at the object itself
+ • If not found, it looks up the prototype chain
+ • This continues until null is reached
+
+3️⃣ How does inheritance work in JavaScript?
+JavaScript uses prototype-based inheritance, not class-based (classes are syntactic sugar over prototypes).
+
+4️⃣ Difference between __proto__ and prototype?
+ • __proto__ → points to an object’s prototype
+ • prototype → property of constructor functions, used for inheritance
+
+5️⃣ Why is this important?
+Understanding prototypes helps:
+ • Debug unexpected behavior
+ • Understand classes under the hood
+ • Write memory-efficient code
+ • Implement inheritance patterns effectively
+__________________________________________________________________________________________________________________________
+🔹 Topic: Memory Management & Garbage Collection
+
+1️⃣ How does memory management work in JavaScript?
+JavaScript automatically allocates memory when objects are created and frees it when they are no longer needed using Garbage Collection.
+
+2️⃣ What is Garbage Collection?
+Garbage Collection is the process of identifying and removing objects that are no longer reachable in the program.
+
+Most modern JS engines use the Mark-and-Sweep algorithm.
+
+3️⃣ What are common causes of memory leaks?
+ • Unused closures holding references
+ • Global variables
+ • Unremoved event listeners
+ • Timers not cleared (setInterval)
+
+4️⃣ How can you prevent memory leaks?
+ • Clean up subscriptions and listeners
+ • Avoid unnecessary global variables
+ • Clear timers
+ • Be careful with closures
+
+5️⃣ Why is this asked in frontend interviews?
+Because memory leaks can:
+ • Slow down applications
+ • Cause crashes
+ • Affect user experience

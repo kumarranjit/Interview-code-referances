@@ -1,11 +1,205 @@
 1. What is RxJS?
-
-
+RxJS (Reactive Extensions for JavaScript) is a library for reactive programming using Observables to 
+handle:
+    Asynchronous operations
+    Event streams
+    HTTP requests
+    Use input events
+    WebSocket streams
+In Angular, RxJS is heavily used in:
+    HttpClient
+    Router
+    Forms
+---------------------------------------------------------------------------------------------------------
 2. what is Observable? How to create? Realtime Usecase?
+An Observable is a stream of data over time. It can emit values, errors, or a completion signal. 
+Observables are lazy, meaning they don't start emitting values until there is a subscriber.
+Key Points:
+Lazy (executes only on subscribe)
+Can emit multiple values
+Can complete or error
+Supports cancellation (unsubscribe)
 
-3. what are the basic operator availabe in RxJs?
+ // Create observabale
+    const myObser$ = new Observable((value) => {
+      value.next("this basic observable creation demo");
+    });
+
+    myObser$.subscribe(message => {
+      //debugger;
+      console.log("myObser$", message);
+    })
+
+-------------------------------------------------------------------------------------------------
+3️⃣ Observable vs Promise
+| Feature           | Observable                          | Promise                             |
+|-------------------|-------------------------------------|-------------------------------------|
+| Emission          | Can emit multiple values over time  | Emits a single value or error       |
+| Lazy              | Yes                                 | No (eager)                          |
+| Cancellation      | Yes (unsubscribe)                   | No                                  |  
+| Operators         | Rich set of operators for transformation | No built-in operators, but can chain with .then() callback |
+| Error Handling    | Can emit errors as part of the stream | Errors are handled through .catch() |  
+
+Angular prefers Observables because they support streams & cancellation.
+---------------------------------------------------------------------------------------------------
+
+4. what are the basic operator availabe in RxJs?
 
     a. of =>
     b. from => 
     c. interval => 
     d. timer =>
+    e. map =>
+    f. filter =>    
+    g. take =>
+    h. concatMap =>     
+    i. catchError =>
+    j. debounceTime =>
+    k. distinctUntilChanged =>
+        
+5. What is Subject?
+
+A Subject is both:
+Observable
+Observer
+It can emit values and be subscribed to. Subjects are useful for multicasting (sharing a single execution path among multiple subscribers) 
+and for creating hot observables (observables that emit values regardless of subscriptions).
+
+import { Subject } from 'rxjs';
+const subject = new Subject();
+subject.subscribe(v => console.log(v));
+subject.next(100);
+
+6. Types of Subjects (Very Important)
+1. Subject
+No initial value
+Does not replay previous value
+
+2. BehaviorSubject
+Requires initial value
+Emits last value to new subscribers
+
+const bs = new BehaviorSubject(0);
+bs.subscribe(v => console.log("Subscriber 1:", v)); // Logs: Subscriber 1: 0
+bs.next(1); // Logs: Subscriber 1: 1
+bs.subscribe(v => console.log("Subscriber 2:", v)); // Logs: Subscriber 2
+
+3. ReplaySubject
+Replays previous values
+Can configure buffer size
+
+4. AsyncSubject
+Emits only last value on completion
+
+--------------------------------------------------------------------------------------------------
+7. What are Operators?
+
+Operators are pure functions that transform streams.
+
+Types:
+1️⃣ Creation Operators
+of
+from
+interval
+timer
+
+2️⃣ Transformation Operators
+
+map
+switchMap
+mergeMap
+concatMap
+exhaustMap
+
+3️⃣ Filtering Operators
+
+filter
+debounceTime
+distinctUntilChanged
+take
+first
+
+4️⃣ Combination Operators
+
+combineLatest
+forkJoin
+zip
+withLatestFrom
+-------------------------------------------------------------------------------------------------------
+8. What is the difference between switchMap, mergeMap, concatMap, exhaustMap?
+| Operator    | Behavior                                                                                     |                                   |
+|-------------|----------------------------------------------------------------------------------------------|-----------------------------------------------| 
+| switchMap   | Cancels previous inner observable when a new value is emitted. Only the latest inner observable is active. | 
+              | Use Case:  Search autocomplete, where you want to cancel previous requests. |
+Example:
+search$.pipe(debounceTime(300),
+  switchMap(term => this.http.get(`/search?q=${term}`)))
+  
+| mergeMap    | Merges all inner observables concurrently. All emitted values are included in the output. 
+              | Use Case:  Handling multiple concurrent requests, like loading multiple resources at once. |
+| concatMap   | Queues inner observables and processes them one at a time. Each inner observable is completed before the next one starts.|
+              | Use Case:  When order matters, like saving a series of form submissions. |
+| exhaustMap  | Ignores new values while the current inner observable is still active. 
+                Only the first inner observable is processed until it completes. 
+              | Use Case:  Handling login requests, where you want to ignore additional clicks until the first request completes. |  
+| flatMap     | Alias for mergeMap. Merges all inner observables concurrently. All emitted values are included in the output. 
+              | flatMap is just an alias of mergeMap. There is no behavioral difference. In modern RxJS, mergeMap is preferred.
+              | Use Case:  Same as mergeMap, but with a more intuitive name for flat mapping operations. |
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+// Observable vs Promise:
+===========================
+In general, promises handle single events that fail or succeed. 
+Though now there are many libraries which can make the promise more powerful.
+Observable is a set of stream of data that can handle to many events. 
+Observables are preferred over promises because they can be aborted, retry in case if it fails, and much more!
+
+// Observable vs Subject
+===========================
+The subject is a special type of Observable. 
+Observable is one of the base classes in RxJS and the Subject is one of its derived types. 
+Subjects implement observer design pattern which is required to set some value
+Observable always need a subscription and implement the observable pattern.
+Observable is always unidirectional meaning it flows from source to subscriber. 
+The subject is bidirectional, information flow from the source to the subscriber, and vice versa.
+Subject is a special type of Observable that allows values to be multicasted to many Observers.
+Inially, there is no value in the Subject, but it can be set by calling next() method.
+
+// BehaviourSubject: 
+==================
+A BehaviourSubject stores the latest value and immediately sends it to all subscribers. 
+By default, it requires an initial value and will always return the current value on subscription.
+for Ex:  I have created a message service that can be consumed from two Angular components and its bidirectional.
+
+//mergeMap
+===========
+Creates new observables for any given source. 
+All previous streams/observable keep alive. 
+There is no order in the returned observables, moreover, the order is not preserved. 
+The best use case for mergeMap is when combining a click event with API calls
+
+// concatMap
+==============
+Similar to mergeMap but the order of observables is well preserved. 
+Preserve the order and emits all observable value, works synchronously.
+Execute slowly because it works synchronously, waits for first observable to complete then only start new observables stream.
+
+// switchMap
+==========
+Immediately creates new observables and completes the old observables. 
+The best use case for switchMap is search auto-complete. Whenever the user starts typing a new keyword for search, 
+a new observable is created and the old one is completed. Check combineLatest example below with mergeMap and switchMap.
+ 
+// flatMap
+============= 
+Immediately creates observables and previous observables are kept alive. 
+flatMap is an alias of mergeMap, mergeMap accepts an optional parameter concurrency, 
+which defines how many Observables can be subscribed at the same time
+
+
